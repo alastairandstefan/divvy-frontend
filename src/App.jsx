@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import NavBar from "./components/NavBar";
+import GroupCreate from "./pages/GroupCreate";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <Route path="/signup" element={<></>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/group/create" element={<></>} />
+        <Route path="/group/create" element={<GroupCreate />} />
         <Route path="/group/:groupId" element={<></>} />
         <Route path="/group/:groupId/edit" element={<></>} />
         <Route path="/expense/create" element={<></>} />
