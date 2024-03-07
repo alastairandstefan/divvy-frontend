@@ -1,13 +1,15 @@
-const GroupCard = ({groupName}) => {
-    console.log(groupName);
-    return (
-  
-        <div className="">
-          <h1>{groupName}</h1>
-        </div>
-      
-    );
-  };
-  
-  export default GroupCard;
-  
+import { Link } from "react-router-dom";
+
+const GroupCard = ({ groupName, id }) => {
+  console.log(groupName);
+  return (
+    <Link
+      to={`/group/${id}`}
+      className="card w-96 h-28 bg-slate-300 shadow-xl m-3 flex justify-center items-center"
+    >
+      <h1>{groupName}</h1>
+    </Link>
+  );
+};
+
+export default GroupCard;
