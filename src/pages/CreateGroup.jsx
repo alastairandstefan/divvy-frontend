@@ -41,7 +41,7 @@ const CreateGroup = () => {
   const [searchInitiated, setSearchInitiated] = useState(false);
   const [member, setMember] = useState([]);
   const navigate = useNavigate();
-  
+
   const searchMutation = useMutation(fetchSearchResults, {
     onSuccess: (data) => {
       setSearchInitiated(true);
@@ -110,7 +110,10 @@ const CreateGroup = () => {
   };
 
   return (
-    <div className="flex flex-col p-10 w-96">
+    <div className="flex flex-col px-8 w-96">
+      <div className="bg-blue-500 text-red-500 p-4">
+        This is a test div with Tailwind CSS.
+      </div>
       <h2 className="text-xl">Create New Group</h2>
       <label className="form-control w-full max-w-xs ">
         <div className="label">
