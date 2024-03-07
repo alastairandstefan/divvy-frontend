@@ -41,7 +41,6 @@ const GroupDetailsPage = () => {
       </div>
 
       <div className="flex flex-col items-center">
-        <h2 className="self-start">expenses below</h2>
 
         {expenses.map(expense => <GroupDetailsExpense key={expense._id} amount={expense.amount} expenseName={expense.expenseName} payer={expense.payer} splits={expense.splits}/>)}
 
