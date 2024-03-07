@@ -2,8 +2,15 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
+import { useMutation } from 'react-query'; // This approach provides benefits like automatic retries, error handling, and status tracking.
+
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+const loginMutation = async ({ email, password }) => {
+  const { data } = await axios.post(`${API_URL}/auth/login`, { email, password });
+  return data;
+ };
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,24 +21,24 @@ const LoginPage = () => {
 
   const {storeToken, authenticateUser} = useContext(AuthContext);
 
+  const mutation = useMutation(loginMutation, {
+    onSuccess: (data) => {
+      console.log("JWT token", data.authToken);
+      storeToken(data.authToken);
+      authenticateUser();
+      navigate("/dashboard");
+    },
+    onError: (error) => {
+      const errorDescription = error.response.data.message;
+      setErrorMessage(errorDescription);
+    },
+ });
+
+
   const loginClick = (e) => {
     e.preventDefault();
 
-    const requestBody = { email, password };
-
-    axios
-      .post(`${API_URL}/auth/login`, requestBody)
-      .then((res) => {
-        console.log("JWT token", res.data.authToken);
-
-        storeToken(res.data.authToken);
-        authenticateUser();
-        navigate("/dashboard");
-      })
-      .catch((err) => {
-        const errorDescription = err.response.data.message;
-        setErrorMessage(errorDescription);
-      });
+    mutation.mutate({ email, password });
   };
 
   return (
