@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import NavBar from "./components/NavBar";
 import GroupDetailsPage from "./pages/GroupDetailsPage";
+import ManageExpensePage from "./pages/ManageExpensePage";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         <Route path="/group/create" element={<></>} />
         <Route path="/group/:groupId" element={<GroupDetailsPage />} />
         <Route path="/group/:groupId/edit" element={<></>} />
-        <Route path="/expense/create" element={<></>} />
+        <Route path="/expense/create" element={<ManageExpensePage/>} />
         <Route path="/expense/:expenseId/edit" element={<></>} />
       </Routes>
     </>

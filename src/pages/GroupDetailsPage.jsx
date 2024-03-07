@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Expense from "../components/Expense";
 
@@ -60,9 +60,9 @@ const GroupDetailsPage = () => {
       </div>
 
       <div className="flex justify-center">
-        <button className="btn btn-md rounded-3xl border-1 border-slate-500">
+        <Link to={`/expense/create`} state={group} className="btn btn-md rounded-3xl border-1 border-slate-500" >
           Add Expense
-        </button>
+        </Link>
       </div>
     </div>
   );
