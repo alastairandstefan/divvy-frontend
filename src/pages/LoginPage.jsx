@@ -6,8 +6,8 @@ import { AuthContext } from "../context/auth.context";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const LoginPage = () => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
   
   const navigate = useNavigate();
