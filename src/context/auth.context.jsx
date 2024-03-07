@@ -7,7 +7,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const AuthContext = React.createContext();
 
 function AuthProviderWrapper(props) {
-  
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -36,7 +36,6 @@ function AuthProviderWrapper(props) {
       .then((response) => {
         // If the server verifies that the JWT token is valid  
         const user = response.data;
-        console.log(user);
        // Update state variables        
         setIsLoggedIn(true);
         setIsLoading(false);

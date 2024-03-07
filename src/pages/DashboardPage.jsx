@@ -35,8 +35,6 @@ const DashboardPage = () => {
   if (isLoadingGroups || isLoadingExpenses) return <div>Loading...</div>;
   if (groupsError || expensesError) return <div>An error has occurred.</div>;
 
-  console.log(expenses);
-
   return (
     <div className="flex flex-col items-center justify-between h-[90%] p-3">
       <div className="flex flex-col items-center">
