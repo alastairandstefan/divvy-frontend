@@ -13,6 +13,7 @@ const fetchGroups = async () => {
 };
 
 const DashboardPage = () => {
+  
  const { data: groups, isLoading, error } = useQuery('groups', fetchGroups);
 
  if (isLoading) return <div>Loading...</div>;
