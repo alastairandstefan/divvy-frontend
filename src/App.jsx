@@ -9,7 +9,7 @@ import GroupDetailsPage from "./pages/GroupDetailsPage";
 
 function App() {
   return (
-    <div > 
+    <>
       <NavBar />
       <Routes>
         <Route path="/" element={<></>} />
@@ -22,7 +22,7 @@ function App() {
         <Route path="/expense/create" element={<></>} />
         <Route path="/expense/:expenseId/edit" element={<></>} />
       </Routes>
-    </div>
+    </>
   );
 }
 

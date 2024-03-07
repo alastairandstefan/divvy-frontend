@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import GroupDetailsExpense from "../components/GroupDetailsExpense";
+import Expense from "../components/Expense";
 
 
 
@@ -35,6 +35,7 @@ const GroupDetailsPage = () => {
   if (groupError || expensesError) return <div>An error has occurred.</div>;
 
   return (
+    <div className="flex flex-col justify-between h-[90%]">
     <div className="flex flex-col items-center">
       <div className="w-96">
         <h2 className="self-start">{group.groupName}</h2>
@@ -42,12 +43,17 @@ const GroupDetailsPage = () => {
 
       <div className="flex flex-col items-center">
 
-        {expenses.map(expense => <GroupDetailsExpense key={expense._id} amount={expense.amount} expenseName={expense.expenseName} payer={expense.payer} splits={expense.splits}/>)}
+        {expenses.map(expense => <Expense key={expense._id} amount={expense.amount} expenseName={expense.expenseName} payer={expense.payer} splits={expense.splits}/>)}
 
       </div>
-      <button className="btn w-96 border-1 border-slate-500 mt-5 ">
+      
+    </div>
+
+    <div className="flex justify-center">
+        <button className="btn w-96 border-1 border-slate-500">
         Add Expense
       </button>
+    </div>
     </div>
   );
 };

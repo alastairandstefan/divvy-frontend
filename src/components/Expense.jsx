@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
-const GroupDetailsExpense = ({ expenseName, amount, id, payer, splits }) => {
+const Expense = ({ expenseName, amount, id, payer, splits }) => {
   // IMPORT LOGGED IN USER INFO
   const { user } = useContext(AuthContext);
 
@@ -50,4 +50,4 @@ const GroupDetailsExpense = ({ expenseName, amount, id, payer, splits }) => {
   }
 };
 
-export default GroupDetailsExpense;
+export default Expense;
