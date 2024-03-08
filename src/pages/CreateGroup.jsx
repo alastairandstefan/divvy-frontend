@@ -40,7 +40,7 @@ const CreateGroup = () => {
   const [groupName, setGroupName] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [searchInitiated, setSearchInitiated] = useState(false);
-  const [memberList, setMemberList] = useState([{}]);
+  const [memberList, setMemberList] = useState([]);
   const [member, setMember] = useState([]);
   const navigate = useNavigate();
 
@@ -103,7 +103,7 @@ const CreateGroup = () => {
       // add userId to member array
       setMember((prevMember) => [...prevMember, id]);
 
-      setMemberList((prevMember) => [{ ...prevMember }, newMember]);
+      setMemberList((prevMemberList) => [...prevMemberList, { ...newMember }]);
       console.log("MemberList200", memberList);
 
       toast.success("User added to group", {
@@ -137,15 +137,15 @@ const CreateGroup = () => {
 
   // if loggedInUser, add loggedInUser to member array if not already in
   if (loggedInUser) {
+    // console.log("loggedInUser", loggedInUser);
     if (!member.includes(loggedInUser._id)) {
-      console.log("loggedInUser", loggedInUser.name);
-      console.log("On Login Member", loggedInUser.name);
-      console.log("MemberList Login", memberList);
       setMember((prevMember) => [...prevMember, loggedInUser._id]);
-      setMemberList((prevMember) => [{ ...prevMember }, loggedInUser]);
+      setMemberList((prevMemberList) => [...prevMemberList, { ...loggedInUser }]);
+      // console.log("loggedInUser", loggedInUser.name);
+      console.log("On Login Member", loggedInUser);
+      console.log("MemberList Login", memberList);
     }
   }
-
 
   const handleCreateGroup = async (e) => {
     e.preventDefault();
@@ -272,19 +272,6 @@ const CreateGroup = () => {
               <p>No members found</p>
             )}
 
-            {/* {memberList.length > 0 ? (
-              <div>
-                {memberList.map((member) => (
-                  <div key={member.id}>
-                    {console.log("member", member)}
-                    <p>{member.name}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>No members found</p>
-            )} */}
-
             {/* Search Results */}
             {searchInitiated && (
               <div className="mt-5">
@@ -298,16 +285,25 @@ const CreateGroup = () => {
             )}
           </div>
         </div>
-        {/* {searchInitiated && ( */}
-        {/* <div className="mt-5">
-          <UserResults
-            users={searchResults}
-            loading={isLoading}
-            handleAddUserToGroup={handleAddUserToGroup}
-            cancelSearch={() => setSearchInitiated(false)}
-          />
-        </div> */}
-        {/* )} */}
+
+        
+          {/* Button */}
+          {memberList.length === 1 ? (
+            <button
+              className="btn btn-neutral  bottom-3 mt-5 w-auto"
+              disabled="disabled"
+            >
+              Create Group
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary  bottom-3 mt-5 w-auto"
+              onClick={handleCreateGroup}
+            >
+              Create Group
+            </button>
+          )}
+        
       </div>
     </div>
   );
