@@ -19,7 +19,7 @@ function App() {
         <Route path="/signup" element={<></>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/group/create" element={<CreateGroup />} />
+        <Route path="/group/create" element={<CreateGroup createGroup={true}/>} />
         <Route path="/group/:groupId" element={<GroupDetailsPage />} />
         <Route path="/group/:groupId/edit" element={<></>} />
         <Route path="/expense/create" element={<ManageExpensePage />} />
