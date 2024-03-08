@@ -92,7 +92,7 @@ const CreateGroup = () => {
     }
   };
 
-  // Add user to group
+  // Add user to group - called from UserResults.jsx
   const handleAddUserToGroup = (newMember) => {
     setSearchInitiated(false);
     const { id, name, email } = newMember;
@@ -140,10 +140,12 @@ const CreateGroup = () => {
     if (!member.includes(loggedInUser._id)) {
       console.log("loggedInUser", loggedInUser.name);
       console.log("On Login Member", loggedInUser.name);
+      console.log("MemberList Login", memberList);
       setMember((prevMember) => [...prevMember, loggedInUser._id]);
       setMemberList((prevMember) => [{ ...prevMember }, loggedInUser]);
     }
   }
+
 
   const handleCreateGroup = async (e) => {
     e.preventDefault();
