@@ -91,6 +91,10 @@ const CreateGroup = () => {
   const handleCreateGroup = async (e) => {
     e.preventDefault();
     // console.log("Output", { groupName, member })
+    if(!groupName || !member){
+      console.log("Please fill in all fields");
+      return
+    }
     try {
       const storedToken = localStorage.getItem("authToken");
       const response = await axios.post(
@@ -110,66 +114,86 @@ const CreateGroup = () => {
   };
 
   return (
-    <div className="flex flex-col px-8 w-96">
-      <div className="bg-blue-500 text-red-500 p-4">
-        This is a test div with Tailwind CSS.
-      </div>
-      <h2 className="text-xl">Create New Group</h2>
-      <label className="form-control w-full max-w-xs ">
-        <div className="label">
-          <span className="label-text">Name of the Group</span>
-        </div>
-        <input
-          type="text"
-          placeholder="Pizza Night"
-          className="input input-bordered w-full max-w-xs"
-          value={groupName}
-          onChange={(e) => setGroupName(e.target.value)}
-          onFocus={() => setSearchInitiated(false)}
-        />
-      </label>
+    <div className="flex flex-col w-full h-full ">
 
-      <form>
-        <label className="form-control w-full max-w-xs">
+      <div>
+        <h2 className="text-xl mx-4  sm:w-80">Create New Group</h2>
+        <div className="divider mx-4 m-0"></div>
+        <label className="form-control mx-4">
           <div className="label">
-            <span className="label-text">Search and add new member:</span>
+            <span className="label-text">Name of the Group</span>
           </div>
           <input
             type="text"
-            placeholder="Search"
-            className="input input-bordered w-full max-w-xs"
-            value={searchUser}
-            onChange={(e) => setSearchUser(e.target.value)}
+            placeholder="Pizza Night or Birthday Party"
+            className="input input-bordered w-full sm:w-80 mb-4"
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
+            // onFocus={() => setSearchInitiated(false)}
           />
         </label>
-        <button
-          type="button"
-          className="btn btn-outline"
-          onClick={handleSearchClick}
-        >
-          Search
-        </button>
-      </form>
-      {searchInitiated && (
-        <UserResults
-          users={searchResults}
-          loading={isLoading}
-          handleAddUserToGroup={handleAddUserToGroup}
-        /> // Only display results if searchInitiated is true
-      )}
+        <form>
+          <label className="form-control mx-4">
+            <div className="label">
+              <span className="label-text">Search member by email:</span>
+            </div>
+            <div className="flex">
+              <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered w-full sm:w-80 mr-3"
+                value={searchUser}
+                onChange={(e) => setSearchUser(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn btn-outline"
+                onClick={handleSearchClick}
+              >
+                Search
+              </button>
+            </div>
+          </label>
+        </form>
+        {searchInitiated && (
+          <UserResults
+            users={searchResults}
+            loading={isLoading}
+            handleAddUserToGroup={handleAddUserToGroup}
+            cancelSearch={() => setSearchInitiated(false)}
+          />
+        )}
+      </div>
+      
       <div>
-        {member.length > 0 && <h2>Added Members</h2>}
-        {member.length > 0 && (
-          <div>
-            {member.map((user) => (
-              <div key={user}>
-                <p>{user}</p>
-              </div>
-            ))}
-            <button className="btn btn-primary" onClick={handleCreateGroup}>
-              Create Group
-            </button>
-          </div>
+        <div className="mx-4">
+          {member.length > 0 && (
+            <div>
+              <h2 className="text-xl sm:w-80">Added Members</h2>
+              <div className="divider  "></div>
+              {member.map((user) => (
+                <div key={user}>
+                  <p>{user}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        {/* Button */}
+        {member.length === 1 ? (
+          <button
+            className="btn btn-neutral mx-4 bottom-3  w-auto"
+            disabled="disabled"
+          >
+            Create Group
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary mx-4 bottom-3  w-auto"
+            onClick={handleCreateGroup}
+          >
+            Create Group
+          </button>
         )}
       </div>
     </div>
