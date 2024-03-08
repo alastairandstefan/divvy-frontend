@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const GroupCard = ({ groupName, id }) => {
-  console.log(groupName);
   return (
     <Link
       to={`/group/${id}`}

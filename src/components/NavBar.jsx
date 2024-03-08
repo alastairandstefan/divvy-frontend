@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 const NavBar = () => {
   return (
 
       <div className="navbar bg-base-100 flex justify-between ">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">D%VVY</a>
+          <Link to="/dashboard" className="btn btn-ghost text-xl">D%VVY</Link>
         </div>
         <div className="flex-none">
         <button className="btn btn-square btn-ghost">
