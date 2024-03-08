@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserResults from "../components/UserResults";
 import { toast } from "react-toastify";
 
@@ -136,6 +136,10 @@ const CreateGroup = () => {
   const { data: loggedInUser } = useQuery("loggedInUser", fetchUserDetails);
 
   // if loggedInUser, add loggedInUser to member array if not already in
+  useEffect(() => {
+    
+  })
+  
   if (loggedInUser) {
     // console.log("loggedInUser", loggedInUser);
     if (!member.includes(loggedInUser._id)) {
@@ -146,7 +150,6 @@ const CreateGroup = () => {
       console.log("MemberList Login", memberList);
     }
   }
-
   const handleCreateGroup = async (e) => {
     e.preventDefault();
     // console.log("Output", { groupName, member })
@@ -262,8 +265,8 @@ const CreateGroup = () => {
             {/* check if memberList is not empty */}
             {memberList.length > 0 ? (
               <div>
-                {memberList.map((member) => (
-                  <div key={member._id}>
+                {memberList.map((member, index) => (
+                  <div key={index}>
                     <p>{member.name}</p>
                   </div>
                 ))}

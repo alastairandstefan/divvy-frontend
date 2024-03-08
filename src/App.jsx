@@ -8,7 +8,8 @@ import NavBar from "./components/NavBar";
 import GroupDetailsPage from "./pages/GroupDetailsPage";
 import ManageExpensePage from "./pages/ManageExpensePage";
 import CreateGroup from "./pages/CreateGroup";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
@@ -19,11 +20,15 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/group/create" element={<CreateGroup />} />
-        <Route path="/group/:groupId" element={<GroupDetailsPage /> } />
+        <Route path="/group/:groupId" element={<GroupDetailsPage />} />
         <Route path="/group/:groupId/edit" element={<></>} />
-        <Route path="/expense/create" element={<ManageExpensePage/>} />
-        <Route path="/expense/:expenseId/edit" element={<ManageExpensePage/>} />
+        <Route path="/expense/create" element={<ManageExpensePage />} />
+        <Route
+          path="/expense/:expenseId/edit"
+          element={<ManageExpensePage />}
+        />
       </Routes>
+      <ToastContainer />
     </>
   );
 }
