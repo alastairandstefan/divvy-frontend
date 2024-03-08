@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import UserResults from "../components/UserResults";
+import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -64,17 +65,30 @@ const CreateGroup = () => {
     setSearchInitiated(false);
 
     // check if userId is already in member array
-    member.forEach((id) => {
-      if (id === userId) {
-        console.log("User already in group");
-        return;
-      } else {
-        // add userId to member array
-        setMember((prevMember) => [...prevMember, userId]);
-        console.log("User added to group");
-        return;
-      }
-    });
+    if (!member.includes(userId)) {
+      setMember((prevMember) => [...prevMember, userId]);
+      toast.success("User added to group", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.warning("User already in group", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
 
     console.log("Member", member);
   };
@@ -91,9 +105,18 @@ const CreateGroup = () => {
   const handleCreateGroup = async (e) => {
     e.preventDefault();
     // console.log("Output", { groupName, member })
-    if(!groupName || !member){
-      console.log("Please fill in all fields");
-      return
+    if (!groupName || !member) {
+      toast.warning("Please fill in all fields", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
     }
     try {
       const storedToken = localStorage.getItem("authToken");
@@ -115,7 +138,6 @@ const CreateGroup = () => {
 
   return (
     <div className="flex flex-col w-full h-full ">
-
       <div>
         <h2 className="text-xl mx-4  sm:w-80">Create New Group</h2>
         <div className="divider mx-4 m-0"></div>
@@ -164,7 +186,7 @@ const CreateGroup = () => {
           />
         )}
       </div>
-      
+
       <div>
         <div className="mx-4">
           {member.length > 0 && (

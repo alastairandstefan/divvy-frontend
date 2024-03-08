@@ -6,8 +6,11 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import NavBar from "./components/NavBar";
 import CreateGroup from "./pages/CreateGroup";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+
   return (
     <div > 
       <NavBar />
@@ -22,6 +25,8 @@ function App() {
         <Route path="/expense/create" element={<></>} />
         <Route path="/expense/:expenseId/edit" element={<></>} />
       </Routes>
+     
+      <ToastContainer />
     </div>
   );
 }
