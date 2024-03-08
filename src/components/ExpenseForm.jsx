@@ -15,14 +15,29 @@ const ExpenseForm = (props) => {
   const [groupId, setGroupId] = useState("");
   const [payer, setPayer] = useState("");
   const [splits, setSplits] = useState([]);
-  const [expenseId, setExpenseId] = useState("")
+  const [expenseId, setExpenseId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const expenseMutation = async (expenseData) => {
-    const { data } = await axios.post(`${API_URL}/api/expenses`, expenseData, {
-      headers: { Authorization: `Bearer ${storedToken}` },
-    });
-    return data;
+    if (props.expense) {
+      const { data } = await axios.put(
+        `${API_URL}/api/expenses/${expenseId}`,
+        expenseData,
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        }
+      );
+      return data;
+    } else {
+      const { data } = await axios.post(
+        `${API_URL}/api/expenses`,
+        expenseData,
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        }
+      );
+      return data;
+    }
   };
 
   const mutation = useMutation(expenseMutation, {
@@ -36,62 +51,78 @@ const ExpenseForm = (props) => {
   });
 
   useEffect(() => {
-    console.log(props);
+    if (props.expense) setAmount(props.expense.amount);
+  },[props])
 
-    if (props.group) {
-      const group = props.group;
+  useEffect(() => {
 
-      group.members.map((member) => {
-        setSplits([
-          ...splits,
-          { userId: member._id, amount: amount / group.members.length },
-        ]);
-      });
+    if (props.group.group) {
+      const group = props.group.group;
+
+      const newSplits = group.members.map(member => ({
+        userId: member._id,
+        amount: amount / group.members.length
+      }));
+
+      setSplits(newSplits);
 
       setGroupId(group._id);
       setPayer(user._id);
     } else if (props.expense) {
-        const expense = props.expense;
 
-        setExpenseName(expense.expenseName)
-        setAmount(expense.amount);
-  
-        setSplits(expense.splits);
-  
-        setGroupId(expense.group);
-        setPayer(expense.payer._id);
+      const expense = props.expense;
 
-        setExpenseId(expense._id)
-      }
+      const newSplits = expense.splits.map(split => ({
+          userId: split.userId,
+          amount: amount / expense.splits.length,
+        
+      }));
 
-  }, [props]);
+      setExpenseName(expense.expenseName);
+
+      setSplits(newSplits);
+
+      setGroupId(expense.group);
+      setPayer(expense.payer._id);
+
+      setExpenseId(expense._id);
+    }
+  }, [props, amount]);
+
+
 
   const saveExpenseClick = (e) => {
     e.preventDefault();
 
+    if (expenseName === "" || amount === "") {
+        setErrorMessage("Please ensure all fields have been filled")
+        return;
+    } 
+
     const expenseData = {
       expenseName: expenseName,
-      amount: amount,
+      amount: Number(amount),
       group: groupId,
       payer: payer,
       splits: splits,
-      _id: expenseId
-      
+      _id: expenseId,
     };
 
     console.log(expenseData);
 
     mutation.mutate(expenseData);
+    setAmount("");
   };
 
   return (
     <form className="flex flex-col justify-center items-center">
       <label>Expense name</label>
       <input
-        type="expenseName"
+        type="text"
         value={expenseName}
         onChange={(e) => setExpenseName(e.target.value)}
         className="border rounded p-2 mb--6"
+        required
       />
 
       <label>Amount</label>
@@ -100,29 +131,26 @@ const ExpenseForm = (props) => {
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         className="border rounded p-2 mb--6"
+        required
       />
 
-<label>Group</label>
+      <label>Group</label>
       <input
-        type="group"
+        type="text"
         value={groupId}
         onChange={(e) => setGroupId(e.target.value)}
         className="border rounded p-2 mb--6"
+        required
       />
 
-<label>Payer</label>
+      <label>Payer</label>
       <input
-        type="expenseName"
+        type="text"
         value={payer}
         onChange={(e) => setPayer(e.target.value)}
         className="border rounded p-2 mb--6"
+        required
       />
-
-
-
-
-
-
 
       {errorMessage && <p>{errorMessage}</p>}
 

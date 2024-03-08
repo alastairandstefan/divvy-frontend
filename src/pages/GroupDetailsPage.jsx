@@ -61,7 +61,7 @@ const GroupDetailsPage = () => {
       </div>
 
       <div className="flex justify-center">
-        <Link to={`/expense/create`} state={group} className="btn btn-md rounded-3xl border-1 border-slate-500" >
+        <Link to={`/expense/create`} state={{group: group, newExpense: false}} className="btn btn-md rounded-3xl border-1 border-slate-500" >
           Add Expense
         </Link>
       </div>

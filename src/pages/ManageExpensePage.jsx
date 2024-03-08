@@ -8,6 +8,7 @@ const ManageExpensePage = () => {
   const location = useLocation();
   const { expenseId } = useParams();
   const group = location.state;
+  const newExpense = location.state;
 
   const API_URL = import.meta.env.VITE_API_URL;
   const storedToken = localStorage.getItem("authToken");
@@ -31,7 +32,8 @@ const ManageExpensePage = () => {
 
   return (
     <div className="flex flex-col justify-center h-[90%] p-3">
-      <h2 className="self-start">Create Expense</h2>
+
+      {newExpense ? <h2 className="self-start">Create Expense</h2> : <h2 className="self-start">Edit Expense</h2>}
 
       <ExpenseForm group={group} expense={expense} />
     </div>

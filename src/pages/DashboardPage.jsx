@@ -2,6 +2,7 @@ import GroupCard from "../components/GroupCard";
 import { useQuery } from "react-query";
 import axios from "axios";
 import Expense from "../components/Expense";
+import { Link } from "react-router-dom";
 
 const DashboardPage = () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -72,9 +73,9 @@ const DashboardPage = () => {
         </button>
       </div>
       <div className="flex justify-center">
-        <button className="btn btn-md rounded-3xl border-1 border-slate-500">
+        <Link to={`/expense/create`} className="btn btn-md rounded-3xl border-1 border-slate-500">
           Add Expense
-        </button>
+        </Link>
       </div>
     </div>
   );
