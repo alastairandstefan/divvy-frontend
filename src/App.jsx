@@ -21,7 +21,7 @@ function App() {
         <Route path="/group/:groupId" element={<GroupDetailsPage />} />
         <Route path="/group/:groupId/edit" element={<></>} />
         <Route path="/expense/create" element={<ManageExpensePage/>} />
-        <Route path="/expense/:expenseId/edit" element={<></>} />
+        <Route path="/expense/:expenseId/edit" element={<ManageExpensePage/>} />
       </Routes>
     </>
   );

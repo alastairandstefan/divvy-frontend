@@ -54,6 +54,7 @@ const GroupDetailsPage = () => {
               expenseName={expense.expenseName}
               payer={expense.payer}
               splits={expense.splits}
+              expenseId = {expense._id}
             />
           ))}
         </div>

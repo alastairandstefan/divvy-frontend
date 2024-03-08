@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
-const Expense = ({ expenseName, amount, id, payer, splits }) => {
+const Expense = ({ expenseName, amount, expenseId, payer, splits }) => {
   // IMPORT LOGGED IN USER INFO
   const { user } = useContext(AuthContext);
 
@@ -19,7 +19,7 @@ const Expense = ({ expenseName, amount, id, payer, splits }) => {
 
     return (
       <Link
-        to={`/group/${id}`}
+        to={`/expense/${expenseId}/edit`}
         className="card w-96 h-16 m-3 flex justify-center items-center"
       >
         <p className="self-start">{expenseName}</p>
@@ -37,7 +37,7 @@ const Expense = ({ expenseName, amount, id, payer, splits }) => {
 
     return (
       <Link
-        to={`/group/${id}`}
+        to={`/expense/${expenseId}/edit`}
         className="card w-96 h-16 m-3 flex justify-center items-center"
       >
         <p className="self-start">{expenseName}</p>
