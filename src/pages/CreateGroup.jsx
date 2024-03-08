@@ -40,6 +40,7 @@ const CreateGroup = () => {
   const [groupName, setGroupName] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [searchInitiated, setSearchInitiated] = useState(false);
+  const [memberList, setMemberList] = useState([{}]);
   const [member, setMember] = useState([]);
   const navigate = useNavigate();
 
@@ -47,6 +48,19 @@ const CreateGroup = () => {
     onSuccess: (data) => {
       setSearchInitiated(true);
       console.log(data);
+      // no user found
+      if (data.length === 0) {
+        toast.warning("No users found", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     },
     onError: (error) => {
       // Handle any errors here
@@ -54,19 +68,44 @@ const CreateGroup = () => {
     },
   });
 
+  // Search for user
   const handleSearchClick = (e) => {
     e.preventDefault();
-    searchMutation.mutate(searchUser);
 
-    setSearchUser("");
+    // Use regex to validate the email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!emailRegex.test(searchUser)) {
+      toast.warning("Provide a valid email", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    } else {
+      searchMutation.mutate(searchUser);
+      setSearchUser("");
+    }
   };
 
-  const handleAddUserToGroup = (userId) => {
+  // Add user to group
+  const handleAddUserToGroup = (newMember) => {
     setSearchInitiated(false);
+    const { id, name, email } = newMember;
+    console.log("Member", newMember);
 
     // check if userId is already in member array
-    if (!member.includes(userId)) {
-      setMember((prevMember) => [...prevMember, userId]);
+    if (!member.includes(id)) {
+      // add userId to member array
+      setMember((prevMember) => [...prevMember, id]);
+
+      setMemberList((prevMember) => [{ ...prevMember }, newMember]);
+      console.log("MemberList200", memberList);
+
       toast.success("User added to group", {
         position: "top-right",
         autoClose: 5000,
@@ -95,10 +134,14 @@ const CreateGroup = () => {
 
   const { data: searchResults, isLoading, error } = searchMutation;
   const { data: loggedInUser } = useQuery("loggedInUser", fetchUserDetails);
+
   // if loggedInUser, add loggedInUser to member array if not already in
   if (loggedInUser) {
     if (!member.includes(loggedInUser._id)) {
+      console.log("loggedInUser", loggedInUser.name);
+      console.log("On Login Member", loggedInUser.name);
       setMember((prevMember) => [...prevMember, loggedInUser._id]);
+      setMemberList((prevMember) => [{ ...prevMember }, loggedInUser]);
     }
   }
 
@@ -137,11 +180,11 @@ const CreateGroup = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-full ">
-      <div>
-        <h2 className="text-xl mx-4  sm:w-80">Create New Group</h2>
-        <div className="divider mx-4 m-0"></div>
-        <label className="form-control mx-4">
+    <div className="relative flex flex-col justify-between w-full">
+      <div className=" flex flex-col justify-between h-full mx-4 ">
+        <h2 className="text-xl  sm:w-80">Create New Group</h2>
+        <div className="divider mb-3 m-0"></div>
+        <label className="form-control ">
           <div className="label">
             <span className="label-text">Name of the Group</span>
           </div>
@@ -155,7 +198,7 @@ const CreateGroup = () => {
           />
         </label>
         <form>
-          <label className="form-control mx-4">
+          <label className="form-control">
             <div className="label">
               <span className="label-text">Search member by email:</span>
             </div>
@@ -177,46 +220,92 @@ const CreateGroup = () => {
             </div>
           </label>
         </form>
-        {searchInitiated && (
+
+        <div id="bottom-section" className="mt-5 w-full">
+          {/* <div className="">
+            {member.length > 0 && (
+              <div>
+                <h2 className="text-xl sm:w-80">Group Members</h2>
+                <div className="divider m-0 mb-5"></div>
+                {member.map((user) => (
+                  <div key={user}>
+                    <p>{user}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div> */}
+
+          {/* Button
+          {member.length === 1 ? (
+            <button
+              className="btn btn-neutral mx-4 bottom-3  w-auto"
+              disabled="disabled"
+            >
+              Create Group
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary mx-4 bottom-3  w-auto"
+              onClick={handleCreateGroup}
+            >
+              Create Group
+            </button>
+          )} */}
+        </div>
+        <div className="card sm:w-80 bg-neutral text-neutral-content">
+          <div className="card-body ">
+            <h2 className="card-title">Group Members</h2>
+
+            {/* check if memberList is not empty */}
+            {memberList.length > 0 ? (
+              <div>
+                {memberList.map((member) => (
+                  <div key={member._id}>
+                    <p>{member.name}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No members found</p>
+            )}
+
+            {/* {memberList.length > 0 ? (
+              <div>
+                {memberList.map((member) => (
+                  <div key={member.id}>
+                    {console.log("member", member)}
+                    <p>{member.name}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No members found</p>
+            )} */}
+
+            {/* Search Results */}
+            {searchInitiated && (
+              <div className="mt-5">
+                <UserResults
+                  searchResults={searchResults}
+                  loading={isLoading}
+                  handleAddUserToGroup={handleAddUserToGroup}
+                  cancelSearch={() => setSearchInitiated(false)}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+        {/* {searchInitiated && ( */}
+        {/* <div className="mt-5">
           <UserResults
             users={searchResults}
             loading={isLoading}
             handleAddUserToGroup={handleAddUserToGroup}
             cancelSearch={() => setSearchInitiated(false)}
           />
-        )}
-      </div>
-
-      <div>
-        <div className="mx-4">
-          {member.length > 0 && (
-            <div>
-              <h2 className="text-xl sm:w-80">Added Members</h2>
-              <div className="divider  "></div>
-              {member.map((user) => (
-                <div key={user}>
-                  <p>{user}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        {/* Button */}
-        {member.length === 1 ? (
-          <button
-            className="btn btn-neutral mx-4 bottom-3  w-auto"
-            disabled="disabled"
-          >
-            Create Group
-          </button>
-        ) : (
-          <button
-            className="btn btn-primary mx-4 bottom-3  w-auto"
-            onClick={handleCreateGroup}
-          >
-            Create Group
-          </button>
-        )}
+        </div> */}
+        {/* )} */}
       </div>
     </div>
   );

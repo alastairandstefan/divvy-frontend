@@ -1,35 +1,49 @@
-const UserResults = ({ users, loading, handleAddUserToGroup, cancelSearch }) => {
-  // console.log(users);
-  // const handleAddUserToGroup = (userId) => {
-  //   console.log(userId);
-  // };
+const UserResults = ({
+  searchResults,
+  loading,
+  handleAddUserToGroup,
+  cancelSearch,
+}) => {
+  console.log("users", searchResults);
+  console.log("name", searchResults[0].name);
+  const newMember = {
+    name: searchResults[0].name,
+    email: searchResults[0].email,
+    id: searchResults[0]._id,
+  };
 
   return (
-    <div className="w-full mx-4">
-      {users ? (
-        <ul>
-          {users.map((user) => (
-            <li key={user._id}>
-              <div className="card w-96 bg-neutral text-neutral-content">
-                <div className="card-body items-center text-center">
-                  <h2 className="card-title mb-4">Add {user.name} to your group.</h2>
-                  {/* <p>
-                    We found {user.name} with this email address: {user.email}
-                  </p> */}
-                  <div className="card-actions justify-end">
-                    <button className="btn btn-ghost" onClick={cancelSearch}>Cancel</button>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleAddUserToGroup(user._id)}
-                    >
-                      Add to group
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+    <div className="">
+      {searchResults ? (
+        <div className="flex ">
+          {/* Search Results */}
+          <p>{searchResults[0].name}</p>
+
+          {/* Button to cancel or add */}
+          <button className="btn btn-ghost btn-xs " onClick={cancelSearch}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <button
+            className="btn btn-primary btn-xs"
+            // onClick={() => handleAddUserToGroup(searchResults[0]._id)}
+            onClick={() => handleAddUserToGroup(newMember)}
+          >
+            Add
+          </button>
+        </div>
       ) : (
         <p>No users found</p>
       )}
