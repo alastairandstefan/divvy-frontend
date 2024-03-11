@@ -1,13 +1,17 @@
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserResults from "../components/UserResults";
 import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// Get user details from logged in user to add to member list
+/**
+ * Get user details from logged in user to add to member list
+ *
+ * @return {Object} The user details from the API response.
+ */
 const fetchUserDetails = async () => {
   const storedToken = localStorage.getItem("authToken");
   const response = await axios.get(`${API_URL}/auth/verify`, {
@@ -18,6 +22,12 @@ const fetchUserDetails = async () => {
   return response.data;
 };
 
+/**
+ * Asynchronous function to fetch search results for a given user.
+ *
+ * @param {string} searchUser - the user email to search for
+ * @return {Promise} the data of the search results
+ */
 const fetchSearchResults = async (searchUser) => {
   try {
     const storedToken = localStorage.getItem("authToken");
@@ -36,7 +46,8 @@ const fetchSearchResults = async (searchUser) => {
   }
 };
 
-const CreateGroup = () => {
+// Component
+const CreateGroup = ({ createGroup }) => {
   const [groupName, setGroupName] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [searchInitiated, setSearchInitiated] = useState(false);
@@ -132,15 +143,42 @@ const CreateGroup = () => {
     console.log("Member", member);
   };
 
+  const handleDeleteMember = (id) => {
+    console.log("incoming ID", id);
+    const updatedData = memberList.filter((item) => item.id !== id);
+    console.log("updatedData", updatedData);
+    setMemberList(updatedData);
+    setMember((prevMember) => prevMember.filter((member) => member !== id));
+    setMemberList((prevMemberList) =>
+      prevMemberList.filter((member) => member._id !== id)
+    );
+    console.log("MemberList update", memberList);
+    toast.error("User removed from group", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   const { data: searchResults, isLoading, error } = searchMutation;
   const { data: loggedInUser } = useQuery("loggedInUser", fetchUserDetails);
 
   // if loggedInUser, add loggedInUser to member array if not already in
+  useEffect(() => {});
+
   if (loggedInUser) {
     // console.log("loggedInUser", loggedInUser);
     if (!member.includes(loggedInUser._id)) {
       setMember((prevMember) => [...prevMember, loggedInUser._id]);
-      setMemberList((prevMemberList) => [...prevMemberList, { ...loggedInUser }]);
+      setMemberList((prevMemberList) => [
+        ...prevMemberList,
+        { ...loggedInUser },
+      ]);
       // console.log("loggedInUser", loggedInUser.name);
       console.log("On Login Member", loggedInUser);
       console.log("MemberList Login", memberList);
@@ -184,7 +222,11 @@ const CreateGroup = () => {
   return (
     <div className="relative flex flex-col justify-between w-full">
       <div className=" flex flex-col justify-between h-full mx-4 ">
-        <h2 className="text-xl  sm:w-80">Create New Group</h2>
+        {createGroup ? (
+          <h2 className="text-xl  sm:w-80">Create New Group</h2>
+        ) : (
+          <h2 className="text-xl  sm:w-80">Edit Group</h2>
+        )}
         <div className="divider mb-3 m-0"></div>
         <label className="form-control ">
           <div className="label">
@@ -192,11 +234,11 @@ const CreateGroup = () => {
           </div>
           <input
             type="text"
-            placeholder="Pizza Night or Birthday Party"
+            placeholder=""
             className="input input-bordered w-full sm:w-80 mb-4"
             value={groupName}
             onChange={(e) => setGroupName(e.target.value)}
-            // onFocus={() => setSearchInitiated(false)}
+            onFocus={() => setSearchInitiated(false)} // search stopped on focus
           />
         </label>
         <form>
@@ -207,10 +249,11 @@ const CreateGroup = () => {
             <div className="flex">
               <input
                 type="text"
-                placeholder="Search"
+                placeholder=""
                 className="input input-bordered w-full sm:w-80 mr-3"
                 value={searchUser}
                 onChange={(e) => setSearchUser(e.target.value)}
+                onFocus={() => setSearchInitiated(false)} // search stopped on focus
               />
               <button
                 type="button"
@@ -223,48 +266,39 @@ const CreateGroup = () => {
           </label>
         </form>
 
-        <div id="bottom-section" className="mt-5 w-full">
-          {/* <div className="">
-            {member.length > 0 && (
-              <div>
-                <h2 className="text-xl sm:w-80">Group Members</h2>
-                <div className="divider m-0 mb-5"></div>
-                {member.map((user) => (
-                  <div key={user}>
-                    <p>{user}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div> */}
-
-          {/* Button
-          {member.length === 1 ? (
-            <button
-              className="btn btn-neutral mx-4 bottom-3  w-auto"
-              disabled="disabled"
-            >
-              Create Group
-            </button>
-          ) : (
-            <button
-              className="btn btn-primary mx-4 bottom-3  w-auto"
-              onClick={handleCreateGroup}
-            >
-              Create Group
-            </button>
-          )} */}
-        </div>
+        <div id="bottom-section" className="mt-5 w-full"></div>
         <div className="card sm:w-80 bg-neutral text-neutral-content">
           <div className="card-body ">
             <h2 className="card-title">Group Members</h2>
 
-            {/* check if memberList is not empty */}
+            {/* Member List */}
             {memberList.length > 0 ? (
               <div>
-                {memberList.map((member) => (
-                  <div key={member._id}>
+                {memberList.map((member, index) => (
+                  <div key={index} className="flex">
                     <p>{member.name}</p>
+                    {/* delete button */}
+                    {index !== 0 && ( // Add this line to skip the first element
+                      <button
+                        className="btn btn-ghost btn-xs "
+                        onClick={() => handleDeleteMember(member.id)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -286,24 +320,22 @@ const CreateGroup = () => {
           </div>
         </div>
 
-        
-          {/* Button */}
-          {memberList.length === 1 ? (
-            <button
-              className="btn btn-neutral  bottom-3 mt-5 w-auto"
-              disabled="disabled"
-            >
-              Create Group
-            </button>
-          ) : (
-            <button
-              className="btn btn-primary  bottom-3 mt-5 w-auto"
-              onClick={handleCreateGroup}
-            >
-              Create Group
-            </button>
-          )}
-        
+        {/* Button */}
+        {memberList.length === 1 ? (
+          <button
+            className="btn btn-neutral  bottom-3 mt-5 w-auto"
+            disabled="disabled"
+          >
+            {createGroup ? "Create Group" : "Update Group"}
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary  bottom-3 mt-5 w-auto"
+            onClick={handleCreateGroup}
+          >
+            {createGroup ? "Create Group" : "Update Group"}
+          </button>
+        )}
       </div>
     </div>
   );
