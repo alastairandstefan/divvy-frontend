@@ -4,17 +4,19 @@ const UserResults = ({
   handleAddUserToGroup,
   cancelSearch,
 }) => {
+  let newMember = null;
+
   // Check if searchResults is not empty and the first result is defined
   if (searchResults && searchResults.length > 0 && searchResults[0]) {
-    const newMember = {
+    newMember = {
       name: searchResults[0].name,
       email: searchResults[0].email,
       id: searchResults[0]._id,
     };
-  } else {
-    // Handle the case where searchResults is empty or the first result is undefined
-    return <p>No users found</p>;
   }
+
+  if(newMember) {
+
 
   return (
     <div className="">
@@ -52,7 +54,11 @@ const UserResults = ({
         <p>No users found</p>
       )}
     </div>
-  );
+  );  }
+  else {
+    // Handle the case where searchResults is empty or the first result is undefined
+    return <p>No users found</p>;
+ }
 };
 
 export default UserResults;
