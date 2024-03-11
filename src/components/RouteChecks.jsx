@@ -1,19 +1,21 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 
+
 export const PrivateRoute = ({children}) => {
 
-    const navigate = useNavigate();
-
     const { isLoggedIn, isLoading } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     // If the authentication is still loading 
     if (isLoading) return <p>Loading ...</p>;
   
     if (!isLoggedIn) {
-    // If the user is not logged in 
-      return navigate(`/`);
+    // If the user is not logged in (redirect to landing page)
+        useEffect(() => {
+            navigate(`/`)
+        },[])
     } else {
     // If the user is logged in, allow to see the page 
       return children;
@@ -24,15 +26,18 @@ export const PrivateRoute = ({children}) => {
 export const AnonymousRoute = ({children}) => {
 
     const { isLoggedIn, isLoading } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     // If the authentication is still loading 
     if (isLoading) return <p>Loading ...</p>;
   
     if (isLoggedIn) {
-    // If the user is not logged in 
-      return navigate(`/dashboard`);
+    // If the user is logged in 
+    useEffect(() => {
+        navigate(`/dashboard`)
+    },[])
     } else {
-    // If the user is logged in, allow to see the page 
+    // If the user is not logged in, allow to see the page (signup/login)
       return children;
     }
 
