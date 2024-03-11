@@ -58,11 +58,11 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="relative flex flex-col justify-between w-full">
-      <div className="flex flex-col justify-between h-full mx-4">
-        <h3 className="text-xl  sm:w-80 text-center">Sign Up to D%VVY</h3>
+    <div className="relative flex flex-col justify-center w-full">
+      <div className="flex flex-col justify-center h-full mx-4">
+        <h3 className="text-2xl my-10 sm:w-80 text-center">Sign Up to D%VVY</h3>
         <form className="flex flex-col justify-center items-center">
-          <label className="input input-bordered flex items-center gap-2 w-full sm:w-80 mb-4">
+          <label className="input input-bordered flex items-center gap-2 w-full max-w-80 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -80,7 +80,7 @@ const SignUpPage = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2 w-full sm:w-80 mb-4">
+          <label className="input input-bordered flex items-center gap-2 w-full max-w-80 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -97,7 +97,7 @@ const SignUpPage = () => {
               onChange={(e) => setName(e.target.value)}
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2 w-full sm:w-80 mb-4">
+          <label className="input input-bordered flex items-center gap-2 w-full max-w-80 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -119,7 +119,7 @@ const SignUpPage = () => {
           </label>
           <button
             // type="submit"
-            className="btn btn-primary  bottom-3 mt-5 w-auto sm:w-80"
+            className="btn btn-primary  bottom-3 mt-5 w-full max-w-80"
             onClick={signUpHandler}
           >
             Sign up
