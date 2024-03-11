@@ -2,39 +2,14 @@ import { useQuery } from "react-query";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Expense from "../components/Expense";
+import { getExpenseByGroupId, getGroupByGroupId } from "../components/RetrieveFunctions";
 
 const GroupDetailsPage = () => {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const storedToken = localStorage.getItem("authToken");
+
   const { groupId } = useParams();
 
-  const fetchGroup = async () => {
-    const { data } = await axios.get(`${API_URL}/api/groups/${groupId}`, {
-      headers: { Authorization: `Bearer ${storedToken}` },
-    });
-    return data;
-  };
-
-  const fetchExpenses = async () => {
-    const { data } = await axios.get(
-      `${API_URL}/api/expenses/group/${groupId}`,
-      {
-        headers: { Authorization: `Bearer ${storedToken}` },
-      }
-    );
-    return data;
-  };
-
-  const {
-    data: group,
-    isLoading: isLoadingGroup,
-    error: groupError,
-  } = useQuery("group", fetchGroup);
-  const {
-    data: expenses,
-    isLoading: isLoadingExpenses,
-    error: expensesError,
-  } = useQuery("expenses", fetchExpenses);
+  const {groupData, isLoadingGroup, groupError} = getGroupByGroupId(groupId);
+  const {expensesData, isLoadingExpenses, expensesError} = getExpenseByGroupId(groupId);
 
   if (isLoadingGroup || isLoadingExpenses) return <div>Loading...</div>;
   if (groupError || expensesError) return <div>An error has occurred.</div>;
@@ -43,11 +18,11 @@ const GroupDetailsPage = () => {
     <div className="flex flex-col justify-between h-[90%]">
       <div className="flex flex-col items-center">
         <div className="w-96">
-          <h2 className="self-start">{group.groupName}</h2>
+          <h2 className="self-start">{groupData.groupName}</h2>
         </div>
 
         <div className="flex flex-col items-center">
-          {expenses.map((expense) => (
+          {expensesData.map((expense) => (
             <Expense
               key={expense._id}
               amount={expense.amount}
@@ -61,7 +36,7 @@ const GroupDetailsPage = () => {
       </div>
 
       <div className="flex justify-center">
-        <Link to={`/expense/create`} state={{group: group, newExpense: false}} className="btn btn-md rounded-3xl border-1 border-slate-500" >
+        <Link to={`/expense/create`} state={{group: groupData, newExpense: false}} className="btn btn-md rounded-3xl border-1 border-slate-500" >
           Add Expense
         </Link>
       </div>
