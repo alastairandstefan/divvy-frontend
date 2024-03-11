@@ -13,7 +13,7 @@ export const getGroupsOfUser = () => {
     return data;
   });
 
-  return { groupsData: data, isLoadingGroups: isLoading, groupsError: error };
+  return { data, isLoading, error };
 };
 
 export const getGroupByGroupId = (groupId) => {
@@ -28,7 +28,8 @@ export const getGroupByGroupId = (groupId) => {
     return data;
   });
 
-  return {groupData: data, isLoadingGroup: isLoading, groupError: error };
+  return { data, isLoading, error };
+
 };
 
 export const getExpensesOfUser = () => {
@@ -42,8 +43,9 @@ export const getExpensesOfUser = () => {
 
     return data;
   });
+  
+  return { data, isLoading, error };
 
-  return { expensesData: data, isLoadingExpenses: isLoading, expensesError: error };
 };
 
 export const getExpenseByGroupId = (groupId) => {
@@ -58,7 +60,8 @@ export const getExpenseByGroupId = (groupId) => {
       return data;
     });
   
-    return { expensesData: data, isLoadingExpenses: isLoading, expensesError: error };
+    
+  return { data, isLoading, error };
   };
 
 export const getExpenseByExpenseId = (expenseId) => {
@@ -73,5 +76,6 @@ export const getExpenseByExpenseId = (expenseId) => {
     return data;
   });
 
-  return { expenseData: data, isLoadingExpense: isLoading, expenseError: error };
+  
+  return { data, isLoading, error };
 };
