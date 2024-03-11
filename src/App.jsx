@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import GroupDetailsPage from "./pages/GroupDetailsPage";
 import ManageExpensePage from "./pages/ManageExpensePage";
 import CreateGroup from "./pages/CreateGroup";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<></>} />
-        <Route path="/signup" element={<></>} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/group/create" element={<CreateGroup />} />

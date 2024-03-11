@@ -23,6 +23,7 @@ const LoginPage = () => {
 
   const mutation = useMutation(loginMutation, {
     onSuccess: (data) => {
+      console.log(data);
       console.log("JWT token", data.authToken);
       storeToken(data.authToken);
       authenticateUser();
