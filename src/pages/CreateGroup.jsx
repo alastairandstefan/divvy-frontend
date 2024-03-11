@@ -58,7 +58,7 @@ const CreateGroup = ({ createGroup }) => {
   const searchMutation = useMutation(fetchSearchResults, {
     onSuccess: (data) => {
       setSearchInitiated(true);
-      console.log(data);
+      // console.log(data);
       // no user found
       if (data.length === 0) {
         toast.warning("No users found", {
@@ -107,7 +107,7 @@ const CreateGroup = ({ createGroup }) => {
   const handleAddUserToGroup = (newMember) => {
     setSearchInitiated(false);
     const { id, name, email } = newMember;
-    console.log("Member", newMember);
+    // console.log("Member", newMember);
 
     // check if userId is already in member array
     if (!member.includes(id)) {
@@ -115,7 +115,7 @@ const CreateGroup = ({ createGroup }) => {
       setMember((prevMember) => [...prevMember, id]);
 
       setMemberList((prevMemberList) => [...prevMemberList, { ...newMember }]);
-      console.log("MemberList200", memberList);
+      // console.log("MemberList200", memberList);
 
       toast.success("User added to group", {
         position: "top-right",
@@ -140,19 +140,19 @@ const CreateGroup = ({ createGroup }) => {
       });
     }
 
-    console.log("Member", member);
+    // console.log("Member", member);
   };
 
   const handleDeleteMember = (id) => {
-    console.log("incoming ID", id);
+    // console.log("incoming ID", id);
     const updatedData = memberList.filter((item) => item.id !== id);
-    console.log("updatedData", updatedData);
+    // console.log("updatedData", updatedData);
     setMemberList(updatedData);
     setMember((prevMember) => prevMember.filter((member) => member !== id));
     setMemberList((prevMemberList) =>
       prevMemberList.filter((member) => member._id !== id)
     );
-    console.log("MemberList update", memberList);
+    // console.log("MemberList update", memberList);
     toast.error("User removed from group", {
       position: "top-right",
       autoClose: 5000,
@@ -180,8 +180,8 @@ const CreateGroup = ({ createGroup }) => {
         { ...loggedInUser },
       ]);
       // console.log("loggedInUser", loggedInUser.name);
-      console.log("On Login Member", loggedInUser);
-      console.log("MemberList Login", memberList);
+      // console.log("On Login Member", loggedInUser);
+      // console.log("MemberList Login", memberList);
     }
   }
 
@@ -212,7 +212,7 @@ const CreateGroup = ({ createGroup }) => {
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       navigate("/dashboard");
     } catch (error) {
       console.error("Failed to create group:", error);
