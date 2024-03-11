@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 const NavBar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const { isLoggedIn, logOutUser } = useContext(AuthContext);
+
+  const logOutHandler = () => {
+    logOutUser();
+  };
 
   return (
     <div className="flex items-center justify-between py-2">
@@ -61,55 +67,80 @@ const NavBar = () => {
                   About
                 </Link>
               </li>
-              <li className=" w-full ">
-                <Link
-                  to="/login"
-                  className="btn btn-neutral text-xl w-full"
-                  onClick={() => setIsNavOpen((prev) => !prev)}
-                >
-                  Login
-                </Link>
-              </li>
-              <li className=" w-full ">
-                <Link
-                  to="/Signup"
-                  className="btn btn-neutral text-xl w-full"
-                  onClick={() => setIsNavOpen((prev) => !prev)}
-                >
-                  Sign Up
-                </Link>
-              </li>
+              {isLoggedIn ? (
+                <>
+                  <li className=" w-full ">
+                    <Link
+                      to="/dashboard"
+                      className="btn btn-neutral text-xl w-full"
+                      onClick={() => setIsNavOpen((prev) => !prev)}
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className=" w-full ">
+                    <Link
+                      to="/dashboard"
+                      className="btn btn-neutral text-xl w-full"
+                      onClick={() => logOutHandler()}
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className=" w-full ">
+                    <Link
+                      to="/login"
+                      className="btn btn-neutral text-xl w-full"
+                      onClick={() => setIsNavOpen((prev) => !prev)}
+                    >
+                      Login
+                    </Link>
+                  </li>
+                  <li className=" w-full ">
+                    <Link
+                      to="/Signup"
+                      className="btn btn-neutral text-xl w-full"
+                      onClick={() => setIsNavOpen((prev) => !prev)}
+                    >
+                      Sign Up
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </section>
 
         <ul className="DESKTOP-MENU hidden space-x-8 lg:flex mr-5">
           <li>
-          <Link
-                  to="/about"
-                  className=" text-xl w-full"
-                  onClick={() => setIsNavOpen((prev) => !prev)}
-                >
-                  About
-                </Link>
+            <Link
+              to="/about"
+              className=" text-xl w-full"
+              onClick={() => setIsNavOpen((prev) => !prev)}
+            >
+              About
+            </Link>
           </li>
           <li>
-          <Link
-                  to="/login"
-                  className=" text-xl w-full"
-                  onClick={() => setIsNavOpen((prev) => !prev)}
-                >
-                  Login
-                </Link>
+            <Link
+              to="/login"
+              className=" text-xl w-full"
+              onClick={() => setIsNavOpen((prev) => !prev)}
+            >
+              Login
+            </Link>
           </li>
           <li>
-          <Link
-                  to="/Signup"
-                  className=" text-xl w-full"
-                  onClick={() => setIsNavOpen((prev) => !prev)}
-                >
-                  Sign Up
-                </Link>
+            <Link
+              to="/Signup"
+              className=" text-xl w-full"
+              onClick={() => setIsNavOpen((prev) => !prev)}
+            >
+              Sign Up
+            </Link>
           </li>
         </ul>
       </nav>

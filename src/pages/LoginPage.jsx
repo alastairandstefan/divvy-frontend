@@ -30,7 +30,7 @@ const LoginPage = () => {
       console.log("JWT token", data.authToken);
       storeToken(data.authToken);
       authenticateUser();
-      navigate("/dashboard");
+      navigate("/group/create");
     },
     onError: (error) => {
       const errorDescription = error.response.data.message;
@@ -99,12 +99,7 @@ const LoginPage = () => {
           >
             Login
           </button>
-        <button
-          className="btn btn-ghost bottom-3 mt-5 w-full max-w-80"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
+      
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>

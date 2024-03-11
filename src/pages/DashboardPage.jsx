@@ -51,9 +51,9 @@ const DashboardPage = () => {
                   id={group._id}
                 />
               ))}
-            <button className="btn h-24 border-1 border-slate-500 border-dashed bg-transparent basis-[30%] rounded-xl">
+            <Link to={"/group/create"} className="btn h-24 border-1 border-slate-500 border-dashed bg-transparent basis-[30%] rounded-xl">
               +
-            </button>
+            </Link>
           </div>
         
       </div>
