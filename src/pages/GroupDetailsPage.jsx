@@ -30,6 +30,7 @@ const GroupDetailsPage = () => {
               payer={expense.payer}
               splits={expense.splits}
               expenseId={expense._id}
+              group={expense.group}
             />
           ))}
         </div>
@@ -38,7 +39,7 @@ const GroupDetailsPage = () => {
       <div className="flex justify-center">
         <Link
           to={`/expense/create`}
-          state={group.data}
+          state={groupId}
           className="btn btn-md rounded-3xl border-1 border-slate-500"
         >
           Add Expense

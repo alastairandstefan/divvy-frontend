@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
-const Expense = ({ expenseName, amount, expenseId, payer, splits }) => {
+const Expense = ({ expenseName, amount, expenseId, payer, splits, group }) => {
   // IMPORT LOGGED IN USER INFO
   const { user } = useContext(AuthContext);
 
@@ -20,6 +20,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits }) => {
     return (
       <Link
         to={`/expense/${expenseId}/edit`}
+        state={group}
         className="w-screen p-3 flex-col justify-center items-center"
       >
         <p className="self-start">{expenseName}</p>
@@ -38,6 +39,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits }) => {
     return (
       <Link
         to={`/expense/${expenseId}/edit`}
+        state={group}
         className="w-screen p-3 flex-col justify-center items-center"
       >
         <p className="self-start">{expenseName}</p>
