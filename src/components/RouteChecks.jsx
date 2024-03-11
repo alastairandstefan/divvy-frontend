@@ -6,30 +6,28 @@ export const PrivateRoute = ({ children }) => {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // If the authentication is still loading
+  useEffect(() => {
+    if (!isLoading && !isLoggedIn) {
+      navigate(`/`);
+    }
+  }, [isLoading, isLoggedIn, navigate]);
+
   if (isLoading) return <p>Loading ...</p>;
 
-  if (!isLoggedIn) {
-    // If the user is not logged in (redirect to landing page)
-    navigate(`/`);
-  } else {
-    // If the user is logged in, allow to see the page
-    return children;
-  }
+  return isLoggedIn ? children : null;
 };
 
 export const AnonymousRoute = ({ children }) => {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // If the authentication is still loading
+  useEffect(() => {
+    if (!isLoading && isLoggedIn) {
+      navigate(`/dashboard`);
+    }
+  }, [isLoading, isLoggedIn, navigate]);
+
   if (isLoading) return <p>Loading ...</p>;
 
-  if (isLoggedIn) {
-    // If the user is logged in
-    navigate(`/dashboard`);
-  } else {
-    // If the user is not logged in, allow to see the page (signup/login)
-    return children;
-  }
+  return isLoggedIn ? null : children;
 };
