@@ -2,24 +2,27 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { useMutation } from 'react-query'; // This approach provides benefits like automatic retries, error handling, and status tracking.
-
+import { useMutation } from "react-query"; // This approach provides benefits like automatic retries, error handling, and status tracking.
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const loginMutation = async ({ email, password }) => {
-  const { data } = await axios.post(`${API_URL}/auth/login`, { email, password });
+  const { data } = await axios.post(`${API_URL}/auth/login`, {
+    email,
+    password,
+  });
   return data;
- };
+};
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
-  
+  // const [loggedInUser, setLoggedInUser] = useState({});
+
   const navigate = useNavigate();
 
-  const {storeToken, authenticateUser} = useContext(AuthContext);
+  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const mutation = useMutation(loginMutation, {
     onSuccess: (data) => {
@@ -33,8 +36,7 @@ const LoginPage = () => {
       const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
     },
- });
-
+  });
 
   const loginHandler = (e) => {
     e.preventDefault();
@@ -42,9 +44,11 @@ const LoginPage = () => {
     mutation.mutate({ email, password });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+  };
+
   return (
-
-
     <div className="relative flex flex-col justify-between w-full">
       <div className="flex flex-col justify-between h-full mx-4">
         <h3 className="text-2xl my-10 sm:w-80 text-center">Login to D%VVY</h3>
@@ -67,7 +71,7 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
-        
+
           <label className="input input-bordered flex items-center gap-2 w-full max-w-80 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -93,13 +97,19 @@ const LoginPage = () => {
             className="btn btn-primary  bottom-3 mt-5 w-full max-w-80"
             onClick={loginHandler}
           >
-           Login
+            Login
           </button>
+        <button
+          className="btn btn-ghost bottom-3 mt-5 w-full max-w-80"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
+      {/* log user out */}
     </div>
-
   );
 };
 
