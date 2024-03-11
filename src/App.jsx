@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignUpPage from "./pages/SignUpPage";
 import { AnonymousRoute, PrivateRoute } from "./components/RouteChecks";
+import AllExpensesPage from "./pages/AllExpensesPage";
 
 function App() {
   return (
@@ -41,6 +42,14 @@ function App() {
           element={
             <PrivateRoute>
               <DashboardPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/expenses"
+          element={
+            <PrivateRoute>
+              <AllExpensesPage />
             </PrivateRoute>
           }
         />

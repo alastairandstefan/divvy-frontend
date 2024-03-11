@@ -79,3 +79,17 @@ export const getExpenseByExpenseId = (expenseId) => {
   
   return { data, isLoading, error };
 };
+
+export const deleteExpenseByExpenseId = (expenseId) => {
+
+  const API_URL = import.meta.env.VITE_API_URL;
+  const storedToken = localStorage.getItem("authToken");
+
+  axios
+    .delete(`${API_URL}/api/expenses/${expenseId}`, {
+      headers: { Authorization: `Bearer ${storedToken}` },
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+
+}

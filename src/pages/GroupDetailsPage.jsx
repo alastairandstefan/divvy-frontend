@@ -5,7 +5,7 @@ import Expense from "../components/Expense";
 import {
   getExpenseByGroupId,
   getGroupByGroupId,
-} from "../components/RetrieveFunctions";
+} from "../components/CRUDFunctions";
 
 const GroupDetailsPage = () => {
 
@@ -38,7 +38,7 @@ const GroupDetailsPage = () => {
       <div className="flex justify-center">
         <Link
           to={`/expense/create`}
-          state={{ group: group.data, newExpense: false }}
+          state={group.data}
           className="btn btn-md rounded-3xl border-1 border-slate-500"
         >
           Add Expense

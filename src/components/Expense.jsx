@@ -20,7 +20,6 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits }) => {
     return (
       <Link
         to={`/expense/${expenseId}/edit`}
-        state={{ group: null, newExpense: false }}
         className="w-screen p-3 flex-col justify-center items-center"
       >
         <p className="self-start">{expenseName}</p>
@@ -39,7 +38,6 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits }) => {
     return (
       <Link
         to={`/expense/${expenseId}/edit`}
-        state={{ group: null, newExpense: false }}
         className="w-screen p-3 flex-col justify-center items-center"
       >
         <p className="self-start">{expenseName}</p>

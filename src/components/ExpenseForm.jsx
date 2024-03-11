@@ -1,8 +1,9 @@
 import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useMutation } from "react-query"; // This approach provides benefits like automatic retries, error handling, and status tracking.
 import axios from "axios";
+import { deleteExpenseByExpenseId } from "./CRUDFunctions";
 
 const ExpenseForm = (props) => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -56,8 +57,9 @@ const ExpenseForm = (props) => {
 
   useEffect(() => {
 
-    if (props.group.group) {
-      const group = props.group.group;
+    if (props.group) {
+      
+      const group = props.group;
 
       const newSplits = group.members.map(member => ({
         userId: member._id,
@@ -108,10 +110,10 @@ const ExpenseForm = (props) => {
       _id: expenseId,
     };
 
-    console.log(expenseData);
-
     mutation.mutate(expenseData);
+
     setAmount("");
+
   };
 
   return (
@@ -153,6 +155,18 @@ const ExpenseForm = (props) => {
       />
 
       {errorMessage && <p>{errorMessage}</p>}
+
+      <div className="flex justify-center">
+        <button
+          className="btn btn-md rounded-3xl border-1 border-slate-500"
+          onClick={() => {
+            deleteExpenseByExpenseId(expenseId);
+            navigate(`/group/${groupId}`);
+          }}
+        >
+          Delete
+        </button>
+      </div>
 
       <div className="flex justify-center">
         <button
