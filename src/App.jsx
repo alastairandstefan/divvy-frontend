@@ -11,6 +11,7 @@ import CreateGroup from "./pages/CreateGroup";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignUpPage from "./pages/SignUpPage";
+import { AnonymousRoute, PrivateRoute } from "./components/RouteChecks";
 
 function App() {
   return (
@@ -18,17 +19,63 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<></>} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/signup"
+          element={
+            <AnonymousRoute>
+              <SignUpPage />
+            </AnonymousRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <AnonymousRoute>
+              <LoginPage />
+            </AnonymousRoute>
+          }
+        />
         {/* <Route path="/logout" element={<></>} /> */}
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/group/create" element={<CreateGroup createGroup={true}/>} />
-        <Route path="/group/:groupId" element={<GroupDetailsPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <DashboardPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/group/create"
+          element={
+            <PrivateRoute>
+              <CreateGroup createGroup={true} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/group/:groupId"
+          element={
+            <PrivateRoute>
+              <GroupDetailsPage />
+            </PrivateRoute>
+          }
+        />
         <Route path="/group/:groupId/edit" element={<></>} />
-        <Route path="/expense/create" element={<ManageExpensePage />} />
+        <Route
+          path="/expense/create"
+          element={
+            <PrivateRoute>
+              <ManageExpensePage />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/expense/:expenseId/edit"
-          element={<ManageExpensePage />}
+          element={
+            <PrivateRoute>
+              <ManageExpensePage />
+            </PrivateRoute>
+          }
         />
       </Routes>
       <ToastContainer />
