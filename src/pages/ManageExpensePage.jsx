@@ -1,14 +1,22 @@
 import ExpenseForm from "../components/ExpenseForm";
 import { useLocation, useParams } from "react-router-dom";
 
-import { getExpenseByExpenseId } from "../components/CRUDFunctions";
+import { getExpenseByExpenseId, getGroupByGroupId } from "../components/CRUDFunctions";
+import { useEffect } from "react";
 
 const ManageExpensePage = () => {
   const location = useLocation();
   const { expenseId } = useParams();
   const group = location.state;
+  const groupId = location.state;
 
+
+console.log(group)
+console.log(groupId);
+ 
   let expense;
+  let groupData;
+
 
   if (expenseId) {
 
@@ -16,15 +24,21 @@ const ManageExpensePage = () => {
 
   }
 
-  if (expense?.isLoading) return <div>Loading...</div>;
-  if (expense?.error) return <div>An error has occurred.</div>;
+  if (group || groupId) {
+    groupData = getGroupByGroupId(group || groupId);
+  }
+
+  if (group?.isLoading ||expense?.isLoading) return <div>Loading...</div>;
+  if (group?.error || expense?.error) return <div>An error has occurred.</div>;
+  
 
   return (
-    <div className="flex flex-col justify-center h-[90%] p-3">
+    <div className="flex flex-col h-[90%] w-[99%] p-3">
 
       {!expense ? <h2 className="self-start">Create Expense</h2> : <h2 className="self-start">Edit Expense</h2>}
 
-      <ExpenseForm group={group} expense={expense?.data} />
+    <ExpenseForm group={groupData} expense={expense} />
+      
 
     </div>
   );

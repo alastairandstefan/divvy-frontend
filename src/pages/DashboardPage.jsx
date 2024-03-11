@@ -21,6 +21,7 @@ const DashboardPage = () => {
         <h2>OVERVIEW</h2>
         <div className="flex flex-col items-center m-3">
           {expenses.data && expenses.data.slice(0, 2).map((expense) => (
+            
             <Expense
               key={expense._id}
               amount={expense.amount}
@@ -28,6 +29,7 @@ const DashboardPage = () => {
               payer={expense.payer}
               splits={expense.splits}
               expenseId={expense._id}
+              group={expense.group}
             />
           ))}
 

@@ -19,7 +19,7 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<></>} />
+        <Route path="/" element={<AnonymousRoute></AnonymousRoute>} />
         <Route
           path="/signup"
           element={
