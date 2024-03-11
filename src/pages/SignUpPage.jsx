@@ -31,7 +31,7 @@ const SignUpPage = () => {
       storeToken(data.authToken);
       console.log("JWT token", data.authToken);
       authenticateUser();
-      navigate("/dashboard");
+    //   navigate("/dashboard");
     },
     onError: (error) => {
       const errorDescription = error.response.data.message;

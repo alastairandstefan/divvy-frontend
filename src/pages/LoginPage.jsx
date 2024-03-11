@@ -30,7 +30,7 @@ const LoginPage = () => {
       console.log("JWT token", data.authToken);
       storeToken(data.authToken);
       authenticateUser();
-      navigate("/group/create");
+      // navigate("/dashboard");
     },
     onError: (error) => {
       const errorDescription = error.response.data.message;
