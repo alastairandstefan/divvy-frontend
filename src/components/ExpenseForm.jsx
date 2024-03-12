@@ -135,7 +135,7 @@ const ExpenseForm = ({ group, expense }) => {
           type="text"
           value={expenseName}
           onChange={(e) => setExpenseName(e.target.value)}
-          className="border rounded p-2 mt-2"
+          className="input input-bordered w-full"
           required
         />
 
@@ -144,7 +144,7 @@ const ExpenseForm = ({ group, expense }) => {
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="border rounded p-2 mt-2"
+          className="input input-bordered w-full"
           required
         />
 
