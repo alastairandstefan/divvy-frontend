@@ -1,23 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    'node_modules/daisyui/dist/**/*.{js,jsx}',
-    './src/pages/**/*.{html,js,jsx}',
-    './src/components/**/*.{html,js,jsx}',
-  
+    "node_modules/daisyui/dist/**/*.{js,jsx}",
+    "./src/pages/**/*.{html,js,jsx}",
+    "./src/components/**/*.{html,js,jsx}",
   ],
   theme: {
-    colors: {
-      appbg: "#F3F3F3",
-      primary: "#A6E8AC",
-      receipt: "#FFF"
+    extend: {
+      colors: {
+        appbg: "#F3F3F3",
+        primBrand: "#A6E8AC",
+        receipt: "#FFF",
+        dark: "#333"
+      },
     },
-    extend: {},
   },
-  plugins: [
-    require('daisyui'),
-  ],
+  plugins: [require("daisyui")],
   daisyui: {
     themes: ["light"],
   },
-}
+};

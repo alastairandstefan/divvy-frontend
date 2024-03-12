@@ -220,14 +220,13 @@ const CreateGroup = ({ createGroup }) => {
   };
 
   return (
-    <div className="relative flex flex-col justify-between w-full">
+    <div className="lex flex-col justify-between h-auto min-h-[90%]  bg-appbg">
       <div className=" flex flex-col justify-between h-full mx-4 ">
         {createGroup ? (
-          <h2 className="text-xl  sm:w-80">Create New Group</h2>
+          <h2 className="font-bold text-lg  mt-4 mb-4">Add new group</h2>
         ) : (
-          <h2 className="text-xl  sm:w-80">Edit Group</h2>
+          <h2 className="font-bold text-lg  mt-4 mb-4">Edit Group</h2>
         )}
-        <div className="divider mb-3 m-0"></div>
         <label className="form-control ">
           <div className="label">
             <span className="label-text">Name of the Group</span>
@@ -257,7 +256,7 @@ const CreateGroup = ({ createGroup }) => {
               />
               <button
                 type="button"
-                className="btn btn-outline"
+                className="btn btn btn-md bg-[#E2E4E7] border-none uppercase"
                 onClick={handleSearchClick}
               >
                 Search
@@ -267,7 +266,7 @@ const CreateGroup = ({ createGroup }) => {
         </form>
 
         <div id="bottom-section" className="mt-5 w-full"></div>
-        <div className="card sm:w-80 bg-neutral text-neutral-content">
+        <div className="card  bg-[#E2E4E7] text-dark ">
           <div className="card-body ">
             <h2 className="card-title">Group Members</h2>
 
@@ -330,7 +329,7 @@ const CreateGroup = ({ createGroup }) => {
           </button>
         ) : (
           <button
-            className="btn btn-primary  bottom-3 mt-5 w-auto"
+            className="btn btn-BrandGreen  bottom-3 mt-5 w-auto"
             onClick={handleCreateGroup}
           >
             {createGroup ? "Create Group" : "Update Group"}

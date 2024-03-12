@@ -69,7 +69,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/group/:groupId/edit" element={<></>} />
+        <Route path="/group/:groupId/edit" element={<CreateGroup createGroup={false} />} />
         <Route
           path="/expense/create"
           element={

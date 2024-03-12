@@ -42,8 +42,10 @@ const UserResults = ({
               />
             </svg>
           </button>
+
+          {/* Add Button */}
           <button
-            className="btn btn-primary btn-xs"
+            className="btn btn-outline btn-xs"
             // onClick={() => handleAddUserToGroup(searchResults[0]._id)}
             onClick={() => handleAddUserToGroup(newMember)}
           >
