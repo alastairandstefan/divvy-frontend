@@ -53,6 +53,13 @@ const GroupDetailsPage = () => {
                   group={expense.group}
                 />
               ))}
+              {expenses.data.length === 0 && (<div>
+                <p className="text-center my-10 font-bold">No expenses yet</p>
+                <p className="text-center mb-10">&#8595; Add an expense below &#8595;</p>
+                <p className="text-center">
+            ************************************************
+          </p>
+              </div>)}
           </div>
         </div>
         <div className="-mt-2">
@@ -72,14 +79,16 @@ const GroupDetailsPage = () => {
         </div>
 
       </div>
-        <div className="flex">
+        <div className="flex flex-col items-center">
+        <Link to="/dashboard" className="btn btn-md btn-secondary border-none w-full mb-4">Back to Dashboard</Link>
           <Link
             to={`/expense/create`}
             state={groupId}
-            className="btn btn-md btn-primary border-none w-full"
+            className="btn btn-md btn-primary border-none w-full "
           >
             Add Expense
           </Link>
+        
         </div>
     </div>
   );

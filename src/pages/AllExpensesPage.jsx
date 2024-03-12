@@ -54,7 +54,7 @@ const AllExpensesPage = () => {
       <div className="flex justify-center">
         <Link
           to={`/dashboard`}
-          className="btn btn-md bg-[#E2E4E7] border-none w-full "
+          className="btn btn-md bg-secondary border-none w-full "
         >
           Back
         </Link>
