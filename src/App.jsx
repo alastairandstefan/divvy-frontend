@@ -14,13 +14,21 @@ import SignUpPage from "./pages/SignUpPage";
 import { AnonymousRoute, PrivateRoute } from "./components/RouteChecks";
 import AllExpensesPage from "./pages/AllExpensesPage";
 import LandingPage from "./pages/LandingPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<AnonymousRoute><LandingPage /></AnonymousRoute>} />
+        <Route
+          path="/"
+          element={
+            <AnonymousRoute>
+              <LandingPage />
+            </AnonymousRoute>
+          }
+        />
         <Route
           path="/signup"
           element={
@@ -37,6 +45,7 @@ function App() {
             </AnonymousRoute>
           }
         />
+        <Route path="/about" element={<AboutPage />} />
         {/* <Route path="/logout" element={<></>} /> */}
         <Route
           path="/dashboard"
@@ -70,7 +79,10 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/group/:groupId/edit" element={<CreateGroup createGroup={false} />} />
+        <Route
+          path="/group/:groupId/edit"
+          element={<CreateGroup createGroup={false} />}
+        />
         <Route
           path="/expense/create"
           element={
