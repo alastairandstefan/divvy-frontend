@@ -15,11 +15,11 @@ const AllExpensesPage = () => {
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
       >
         <div className="w-full bg-receipt ">
-          <h2 className="font-bold text-lg ml-3 mt-4 ">ALL EXPENSES</h2>
+          <h2 className="font-bold text-lg ml-3 mt-4 text-center ">ALL EXPENSES</h2>
           <p className="text-center">
             ************************************************
           </p>
-          <div className="flex flex-col items-center m-3">
+          <div className="flex flex-col items-center m-3 ">
             {expenses.data &&
               expenses.data.map((expense) => (
                 <Expense

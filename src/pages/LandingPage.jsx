@@ -3,7 +3,7 @@ import hero from "../../public/hero.png";
 
 const LandingPage = () => {
   return (
-    <div className="LANDING flex flex-col justify-between h-full p-3 bg-appbg bg-gradient-to-t from-[#D5EFDF] via-[#FDEDD7] to-[#FFFBF0]">
+    <div className="LANDING flex flex-col justify-between h-[93%] p-3 bg-appbg bg-gradient-to-t from-[#D5EFDF] via-[#FDEDD7] to-[#FFFBF0]">
       <div className="mt-20 flex flex-col items-center">
         <h1 className="font-bold text-3xl text-center">
           Split Expenses Effortlessly with Friends and Family

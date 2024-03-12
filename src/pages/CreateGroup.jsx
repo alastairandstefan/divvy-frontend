@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import UserResults from "../components/UserResults";
@@ -46,12 +46,32 @@ const fetchSearchResults = async (searchUser) => {
   }
 };
 
+const fetchGroupDetails = async (groupID) => {
+  try {
+    const storedToken = localStorage.getItem("authToken");
+    const response = await axios.get(`${API_URL}/api/groups/${groupID}`, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch group details:", error);
+    throw error;
+  }
+};
+
 // Component
 const CreateGroup = ({ createGroup }) => {
-  const [groupName, setGroupName] = useState("");
+  const location = useLocation();
+  const { groupData } = location.state; // get groupID from location state GroupDetailsPage
+  console.log("Data", groupData);
+
+
+  const [groupName, setGroupName] = useState(groupData?.groupName || "");
   const [searchUser, setSearchUser] = useState("");
   const [searchInitiated, setSearchInitiated] = useState(false);
-  const [memberList, setMemberList] = useState([]);
+  const [memberList, setMemberList] = useState(groupData?.members || []);
   const [member, setMember] = useState([]);
   const navigate = useNavigate();
 
@@ -78,6 +98,8 @@ const CreateGroup = ({ createGroup }) => {
       console.error("Search error:", error);
     },
   });
+
+  
 
   // Search for user
   const handleSearchClick = (e) => {
@@ -185,6 +207,7 @@ const CreateGroup = ({ createGroup }) => {
     }
   }
 
+  // Create Group or edit group
   const handleCreateGroup = async (e) => {
     e.preventDefault();
     // console.log("Output", { groupName, member })
@@ -229,13 +252,16 @@ const CreateGroup = ({ createGroup }) => {
         )}
         <label className="form-control ">
           <div className="label">
+           
             <span className="label-text">Name of the Group</span>
           </div>
           <input
             type="text"
             placeholder=""
             className="input input-bordered w-full sm:w-80 mb-4"
-            value={groupName}
+            // check if groupName is not empty (edit mode)
+            value={!createGroup && groupData ? groupData.groupName : groupName}
+            
             onChange={(e) => setGroupName(e.target.value)}
             onFocus={() => setSearchInitiated(false)} // search stopped on focus
           />
@@ -266,7 +292,7 @@ const CreateGroup = ({ createGroup }) => {
         </form>
 
         <div id="bottom-section" className="mt-5 w-full"></div>
-        <div className="card  bg-[#E2E4E7] text-dark ">
+        <div className="card  bg-[#E2E4E7] text-dark mb-10">
           <div className="card-body ">
             <h2 className="card-title text-lg">Group Members</h2>
 
@@ -320,46 +346,64 @@ const CreateGroup = ({ createGroup }) => {
         </div>
 
         {/* Button */}
-      
-        
-          <div className="flex justify-between">
-            <Link to="/dashboard" className="btn bg-[#ED9A8F] text-white mt-5 w-auto">Delete</Link>
-            <Link to="/dashboard" className="btn btn-md bg-[#E2E4E7]">Cancel</Link>
+        {!createGroup ? (
+          <div className="flex h-auto justify-between">
+            <button
+              onClick={() => {
+                if (groupId) {
+                  deleteGroup(groupId);
+                }
+                navigate("/dashboard");
+              }}
+              className="btn bg-[#ED9A8F] text-white w-auto"
+            >
+              {" "}
+              <svg
+                width="19"
+                height="21"
+                viewBox="0 0 19 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.1665 5.29167H17.8332M7.4165 9.45833V15.7083M11.5832 9.45833V15.7083M2.20817 5.29167L3.24984 17.7917C3.24984 18.3442 3.46933 18.8741 3.86003 19.2648C4.25073 19.6555 4.78064 19.875 5.33317 19.875H13.6665C14.219 19.875 14.7489 19.6555 15.1396 19.2648C15.5303 18.8741 15.7498 18.3442 15.7498 17.7917L16.7915 5.29167M6.37484 5.29167V2.16667C6.37484 1.8904 6.48458 1.62545 6.67993 1.4301C6.87528 1.23475 7.14024 1.125 7.4165 1.125H11.5832C11.8594 1.125 12.1244 1.23475 12.3197 1.4301C12.5151 1.62545 12.6248 1.8904 12.6248 2.16667V5.29167"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              className="btn btn-md bg-secondary border-1 basis-[40%]"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              CANCEL
+            </button>
             {memberList.length === 1 ? (
-            
-            <button
-              className="btn  mt-5 w-auto"
-              disabled="disabled"
-            >
-              Update Group
-            </button>
-                    ) : (
-            <button
-              className="btn  mt-5 w-auto"
-              disabled="disabled"
-            >
-              Update Group
-            </button>
+              <button className="btn  w-auto" disabled="disabled">
+                Update Group
+              </button>
+            ) : (
+              <button className="btn  w-auto" disabled="disabled">
+                Update Group
+              </button>
             )}
           </div>
-       
-
-
-
-        {memberList.length === 1 ? (
-          <button
-            className="btn  mt-5 w-auto"
-            disabled="disabled"
-          >
-           {createGroup ? "Create Group" : "Update Group"} 
-          </button>
         ) : (
-          <button
-            className="btn bg-brandgreen  mt-5 w-auto"
-            onClick={handleCreateGroup}
-          >
-            {createGroup ? "Create Group" : "Update Group"} 
-          </button>
+          <div>
+            {memberList.length === 1 ? (
+              <button className="btn  w-full" disabled="disabled">
+                Update Group
+              </button>
+            ) : (
+              <button className="btn  w-full" disabled="disabled">
+                Update Group
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>
