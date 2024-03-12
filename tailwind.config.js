@@ -20,7 +20,6 @@ export default {
   ],
   daisyui: {
     themes: [
-      "light",
       {
         'mytheme': {
           'primary': '#a6e8ac',
