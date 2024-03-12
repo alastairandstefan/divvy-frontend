@@ -12,7 +12,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between py-2">
+    <div className="flex items-center justify-between py-2 bg-gradient-to-r from-[#D5EFDF] to-[#F8EFD5]">
       <Link to="/dashboard" className="btn btn-ghost text-xl">
         D%VVY
       </Link>

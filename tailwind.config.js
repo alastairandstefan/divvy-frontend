@@ -7,9 +7,17 @@ export default {
   
   ],
   theme: {
+    colors: {
+      appbg: "#F3F3F3",
+      primary: "#A6E8AC",
+      receipt: "#FFF"
+    },
     extend: {},
   },
   plugins: [
     require('daisyui'),
   ],
+  daisyui: {
+    themes: ["light"],
+  },
 }
