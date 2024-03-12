@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import UserResults from "../components/UserResults";
@@ -256,7 +256,7 @@ const CreateGroup = ({ createGroup }) => {
               />
               <button
                 type="button"
-                className="btn btn btn-md bg-[#E2E4E7] border-none uppercase"
+                className="btn  btn-md bg-[#E2E4E7] border-none uppercase"
                 onClick={handleSearchClick}
               >
                 Search
@@ -268,7 +268,7 @@ const CreateGroup = ({ createGroup }) => {
         <div id="bottom-section" className="mt-5 w-full"></div>
         <div className="card  bg-[#E2E4E7] text-dark ">
           <div className="card-body ">
-            <h2 className="card-title">Group Members</h2>
+            <h2 className="card-title text-lg">Group Members</h2>
 
             {/* Member List */}
             {memberList.length > 0 ? (
@@ -320,19 +320,45 @@ const CreateGroup = ({ createGroup }) => {
         </div>
 
         {/* Button */}
+      
+        
+          <div className="flex justify-between">
+            <Link to="/dashboard" className="btn bg-[#ED9A8F] text-white mt-5 w-auto">Delete</Link>
+            <Link to="/dashboard" className="btn btn-md bg-[#E2E4E7]">Cancel</Link>
+            {memberList.length === 1 ? (
+            
+            <button
+              className="btn  mt-5 w-auto"
+              disabled="disabled"
+            >
+              Update Group
+            </button>
+                    ) : (
+            <button
+              className="btn  mt-5 w-auto"
+              disabled="disabled"
+            >
+              Update Group
+            </button>
+            )}
+          </div>
+       
+
+
+
         {memberList.length === 1 ? (
           <button
-            className="btn btn-neutral  bottom-3 mt-5 w-auto"
+            className="btn  mt-5 w-auto"
             disabled="disabled"
           >
-            {createGroup ? "Create Group" : "Update Group"}
+           {createGroup ? "Create Group" : "Update Group"} 
           </button>
         ) : (
           <button
-            className="btn btn-BrandGreen  bottom-3 mt-5 w-auto"
+            className="btn bg-brandgreen  mt-5 w-auto"
             onClick={handleCreateGroup}
           >
-            {createGroup ? "Create Group" : "Update Group"}
+            {createGroup ? "Create Group" : "Update Group"} 
           </button>
         )}
       </div>

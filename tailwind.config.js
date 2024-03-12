@@ -9,7 +9,7 @@ export default {
     extend: {
       colors: {
         appbg: "#F3F3F3",
-        primBrand: "#A6E8AC",
+        brandgreen: "#A6E8AC",
         receipt: "#FFF",
         dark: "#333"
       },
