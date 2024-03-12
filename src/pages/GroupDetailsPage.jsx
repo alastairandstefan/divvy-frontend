@@ -40,7 +40,7 @@ const GroupDetailsPage = () => {
         <Link
           to={`/expense/create`}
           state={groupId}
-          className="btn btn-md rounded-3xl border-1 border-slate-500"
+          className="btn btn-primary btn-md rounded-lg border-1 w-full"
         >
           Add Expense
         </Link>

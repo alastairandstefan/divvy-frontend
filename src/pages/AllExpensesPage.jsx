@@ -22,6 +22,7 @@ const AllExpensesPage = () => {
                 payer={expense.payer}
                 splits={expense.splits}
                 expenseId={expense._id}
+                group={expense.group}
               />
             ))}
           </div>

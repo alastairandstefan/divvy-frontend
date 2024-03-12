@@ -23,6 +23,8 @@ const ExpenseForm = ({ group, expense }) => {
   const [expenseId, setExpenseId] = useState(expense?.data?._id || "");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const customButton = document.getElementById("custom-button");
+
   const expenseMutation = async (expenseData) => {
     try {
       const url = expenseId
@@ -55,7 +57,7 @@ const ExpenseForm = ({ group, expense }) => {
   }, [expense]);
 
   useEffect(() => {
-    if (group) {
+    if (group && customSplit.length === 0) {
       const newSplits = group.data.members.map((member) => ({
         userId: member._id,
         amount: amount / group.data.members.length,
@@ -66,7 +68,7 @@ const ExpenseForm = ({ group, expense }) => {
       setPayer(user._id);
     }
 
-    if (expense) {
+    if (expense && customSplit.length === 0) {
       const newSplits = expense.data.splits.map((split) => ({
         userId: split.userId,
         amount: amount / expense.data.splits.length,
@@ -82,7 +84,7 @@ const ExpenseForm = ({ group, expense }) => {
   const handleCustomSplit = (e) => {
     const memberId = e.target.value;
     const isChecked = e.target.checked;
-  
+
     setCustomSplit((prevCustomSplit) => {
       if (isChecked) {
         return [...prevCustomSplit, memberId];
@@ -91,18 +93,16 @@ const ExpenseForm = ({ group, expense }) => {
       }
     });
   };
-  
 
   useEffect(() => {
-    console.log(customSplit)
+    console.log(customSplit);
 
-    const newSplits = customSplit.map(id => ({
+    const newSplits = customSplit.map((id) => ({
       userId: id,
-      amount: amount / customSplit.length
+      amount: amount / customSplit.length,
     }));
 
     setSplits(newSplits);
-
   }, [customSplit]);
 
   const saveExpenseClick = (e) => {
@@ -128,36 +128,36 @@ const ExpenseForm = ({ group, expense }) => {
   };
 
   return (
-    <form className="h-[90%] flex flex-col justify-between mt-3">
+    <form className="h-full flex flex-col justify-between mt-5">
       <div className="flex flex-col">
-        <label>Expense name</label>
+        <label className="text-slate-600">Expense name</label>
         <input
           type="text"
           value={expenseName}
           onChange={(e) => setExpenseName(e.target.value)}
-          className="border rounded p-2 mb--6"
+          className="border rounded p-2 mt-2"
           required
         />
 
-        <label className="mt-5">Amount</label>
+        <label className="mt-5 text-slate-600">Amount</label>
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="border rounded p-2 mb--6"
+          className="border rounded p-2 mt-2"
           required
         />
 
-        <p className="mt-3">Group: {group && group.data.groupName}</p>
+        {/* <p className="mt-3">Group: {group && group?.data?.groupName}</p> */}
 
-        <label className="mt-3">Who paid?</label>
-        <div role="tablist" className="tabs tabs-boxed mt-1">
+        <label className="mt-5 text-slate-600">Paid by:</label>
+
+        <div className="join flex justify-between mt-2">
           <input
             type="radio"
             name="select-payer"
-            role="tab"
-            className="tab"
-            aria-label="Me"
+            aria-label="You"
+            className="btn basis-1/2 join-item "
             value={user._id}
             onChange={(e) => {
               setPayer(e.target.value);
@@ -166,103 +166,132 @@ const ExpenseForm = ({ group, expense }) => {
             checked={payer === user._id}
           />
 
+          <div className="collapse basis-1/2 join-item">
+            <input
+              className="btn"
+              type="radio"
+              onChange={() => setPayer("")} // Clear payer when selecting 'Someone else'
+              checked={payer !== user._id}
+            />
+            <div className="collapse-title m-0 p-0 w-full">
+              <input
+                className="btn w-full rounded-l-none"
+                type="radio"
+                onChange={() => setPayer("")} // Clear payer when selecting 'Someone else'
+                checked={payer !== user._id}
+                aria-label="Someone else"
+              />
+            </div>
+
+            <div className="collapse-content">
+              {group &&
+                group?.data?.members
+                  .filter((member) => member._id !== user._id)
+                  .map((member) => {
+                    return (
+                      <div className="form-control mt-1" key={member._id}>
+                        <label className="label cursor-pointer">
+                          <span>{member.name}</span>
+                          <input
+                            type="radio"
+                            name="select-payer"
+                            className="radio"
+                            value={member._id}
+                            onChange={(e) => {
+                              setPayer(e.target.value);
+                              console.log(payer);
+                            }}
+                            checked={payer === member._id}
+                          />
+                        </label>
+                      </div>
+                    );
+                  })}
+            </div>
+          </div>
+        </div>
+
+        <label className="mt-5 text-slate-600">Split between</label>
+        <div className="join flex justify-between mt-2">
           <input
             type="radio"
-            role="tab"
-            className="tab"
-            aria-label="Someone else"
-            onChange={() => setPayer("")} // Clear payer when selecting 'Someone else'
-            checked={payer !== user._id}
+            name="select-split"
+            aria-label="Everyone"
+            className="btn basis-1/2 join-item"
+            onChange={(e) => {
+              customButton.checked = false;
+              setCustomSplit([]);
+            }}
+            defaultChecked={
+              !expense ||
+              group?.data?.members?.length === expense?.data?.splits.length
+            }
           />
-          <div
-            role="tabpanel"
-            className="tab-content bg-base-100 border-base-300 rounded-box p-6 mt-1"
-          >
-            {group &&
-              group.data.members
-                .filter((member) => member._id !== user._id)
-                .map((member) => {
+
+          <div className="collapse basis-1/2 join-item">
+            <input
+              className="btn"
+              name="select-split"
+              type="radio"
+              onClick={(e) => {
+                customButton.checked = true;
+              }}
+            />
+            <div className="collapse-title m-0 p-0 w-full">
+              <input
+                className="btn w-full rounded-l-none"
+                name=""
+                type="radio"
+                aria-label="Custom"
+                id="custom-button"
+                defaultChecked={
+                  expense &&
+                  group?.data?.members?.length !== expense?.data?.splits.length
+                }
+              />
+            </div>
+
+            <div className="collapse-content">
+              {group &&
+                group?.data?.members.map((member) => {
                   return (
-                    <div className="form-control" key={member._id}>
+                    <div className="form-control mt-2" key={member._id}>
                       <label className="label cursor-pointer">
-                        <span>{member.name}</span>
+                        <span>
+                          {member.name === user.name ? (
+                            <span>{member.name} (You)</span>
+                          ) : (
+                            <span>{member.name}</span>
+                          )}
+                        </span>
                         <input
-                          type="radio"
-                          name="select-payer"
-                          className="radio"
+                          type="checkbox"
+                          name="select-split-custom"
+                          className="checkbox"
                           value={member._id}
-                          onChange={(e) => {
-                            setPayer(e.target.value);
-                            console.log(payer);
-                          }}
-                          checked={payer === member._id}
+                          onChange={handleCustomSplit}
+                          defaultChecked={expense?.data?.splits.some(
+                            (split) => split.userId === member._id
+                          )}
+                          checked={customSplit.includes(member._id)}
                         />
                       </label>
                     </div>
                   );
                 })}
-          </div>
-        </div>
-        <label className="mt-3">Split between</label>
-        <div role="tablist" className="tabs tabs-boxed mt-1">
-          <input
-            type="radio"
-            name="select-split"
-            role="tab"
-            className="tab"
-            aria-label="Everyone"
-            onChange={() => setCustomSplit([])}
-            defaultChecked={
-              !expense ||
-              group.data.members.length === expense?.data?.splits.length
-            }
-          />
-
-          <input
-            type="radio"
-            name="select-split"
-            role="tab"
-            className="tab"
-            aria-label="Custom"
-          />
-          <div
-            role="tabpanel"
-            className="tab-content bg-base-100 border-base-300 rounded-box p-6 mt-1"
-          >
-            {group &&
-              group.data.members.map((member) => {
-                return (
-                  <div className="form-control" key={member._id}>
-                    <label className="label cursor-pointer">
-                      <span>
-                        {member.name === user.name ? (
-                          <span>{member.name} (Me)</span>
-                        ) : (
-                          <span>{member.name}</span>
-                        )}
-                      </span>
-                      <input
-                        type="checkbox"
-                        name="select-split-custom"
-                        className="checkbox"
-                        value={member._id}
-                        checked={customSplit.includes(member._id)}
-                        onChange={handleCustomSplit}
-                      />
-                    </label>
-                  </div>
-                );
-              })}
+            </div>
           </div>
         </div>
       </div>
 
       {errorMessage && <p>{errorMessage}</p>}
+
+      
       <div>
-        <div className="flex justify-evenly mt-5">
+        <div className="flex justify-between mt-5">
           {expense && (
             <button
-              className="btn btn-md rounded-3xl border-1 border-slate-500"
+              className="btn btn-error btn-md rounded-lg border-1 basis-[15%]"
               onClick={() => {
                 if (expenseId) {
                   deleteExpenseByExpenseId(expenseId);
@@ -270,26 +299,38 @@ const ExpenseForm = ({ group, expense }) => {
                 navigate(`/group/${groupId}`);
               }}
             >
-              Delete
-            </button>
-          )}
-
-          {!expense && (
-            <button
-              className="btn btn-md rounded-3xl border-1 border-slate-500"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              Back
+              <svg
+                width="19"
+                height="21"
+                viewBox="0 0 19 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.1665 5.29167H17.8332M7.4165 9.45833V15.7083M11.5832 9.45833V15.7083M2.20817 5.29167L3.24984 17.7917C3.24984 18.3442 3.46933 18.8741 3.86003 19.2648C4.25073 19.6555 4.78064 19.875 5.33317 19.875H13.6665C14.219 19.875 14.7489 19.6555 15.1396 19.2648C15.5303 18.8741 15.7498 18.3442 15.7498 17.7917L16.7915 5.29167M6.37484 5.29167V2.16667C6.37484 1.8904 6.48458 1.62545 6.67993 1.4301C6.87528 1.23475 7.14024 1.125 7.4165 1.125H11.5832C11.8594 1.125 12.1244 1.23475 12.3197 1.4301C12.5151 1.62545 12.6248 1.8904 12.6248 2.16667V5.29167"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </button>
           )}
 
           <button
-            className="btn btn-md rounded-3xl border-1 border-slate-500"
+            className="btn btn-md rounded-lg border-1 basis-[40%]"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            CANCEL
+          </button>
+
+          <button
+            className={`btn btn-primary btn-md rounded-lg border-1 ${expense ? "basis-[40%]" : "basis-[55%]"}`}
             onClick={saveExpenseClick}
           >
-            Save
+            SAVE
           </button>
         </div>
       </div>
