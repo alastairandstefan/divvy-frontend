@@ -45,7 +45,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits, group }) => {
       >
         {/* capitalize first letter */}
         <p className="self-start capitalize">{expenseName.charAt(0).toUpperCase() + expenseName.slice(1)}</p>
-        <div className="w-full mt-2 flex justify-between text-red-500 text-sm">
+        <div className="w-full flex justify-between text-red-500 text-sm">
           <p>{`${payer.name} paid ${amount}`}</p>
           <p>You owe {userSplit.amount}</p>
         </div>
