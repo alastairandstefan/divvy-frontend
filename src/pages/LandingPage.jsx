@@ -3,7 +3,7 @@ import hero from "../../public/hero.png";
 
 const LandingPage = () => {
   return (
-    <div className="LANDING flex flex-col justify-evenly h-[92.5%] p-3 bg-appbg bg-gradient-to-t from-[#D5EFDF] via-[#FDEDD7] to-[#FFFBF0] items-center">
+    <div className="LANDING flex flex-col justify-evenly h-[92.5%] md:h-[95%] p-3 bg-appbg bg-gradient-to-t from-[#D5EFDF] via-[#FDEDD7] to-[#FFFBF0] items-center">
       <div className="flex flex-col items-center justify-evenly basis-1/8">
         <h1 className="font-bold text-3xl text-center w-[80%]">
           Split Expenses Effortlessly with Friends and Family
@@ -14,7 +14,7 @@ const LandingPage = () => {
       </div>
       <img
         src={hero}
-        className="hero md:size-[35%] md:self-center"
+        className="hero w-[70%] md:w-[35%] h-auto md:self-center"
         alt="an illustration of a group of people being happy"
       />
       <div className="flex flex-col w-full justify-evenly items-center basis-1/6">
@@ -22,7 +22,7 @@ const LandingPage = () => {
           to="/signup"
           className="btn btn-md w-[90%] md:w-[40%] btn-primary border-none uppercase"
         >
-          Sign Up
+          Sign Up to Divvy
         </Link>
 
         <Link
