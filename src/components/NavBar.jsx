@@ -1,21 +1,7 @@
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { toast } from "react-toastify";
 
 import { useState, useContext } from "react";
-
-const notify = (kind, message) => {
-  toast.kind(message, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  });
-};
 
 const NavBar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
