@@ -21,7 +21,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits, group }) => {
       <Link
         to={`/expense/${expenseId}/edit`}
         state={group}
-        className="w-screen px-6 mb-6 py-0 flex-col justify-center items-center"
+        className="w-full px-6 mb-6 py-0 flex-col justify-center items-center"
       >
         {/* capitalize first letter */}
         <p className="self-start">{expenseName.charAt(0).toUpperCase() + expenseName.slice(1)}</p>
@@ -41,7 +41,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits, group }) => {
       <Link
         to={`/expense/${expenseId}/edit`}
         state={group}
-        className="w-screen px-6 mb-6 py-0 flex-col justify-center items-center"
+        className="w-full px-6 mb-6 py-0 flex-col justify-center items-center"
       >
         {/* capitalize first letter */}
         <p className="self-start capitalize">{expenseName.charAt(0).toUpperCase() + expenseName.slice(1)}</p>
