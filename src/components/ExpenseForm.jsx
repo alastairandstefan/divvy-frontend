@@ -51,16 +51,16 @@ const ExpenseForm = ({ group, expense }) => {
 
   useEffect(() => {
     if (expense) {
-      setAmount(expense.data.amount);
+      setAmount(expense?.data?.amount);
       setExpenseId(expense.data._id);
     }
   }, [expense]);
 
   useEffect(() => {
     if (group && customSplit.length === 0) {
-      const newSplits = group.data.members.map((member) => ({
+      const newSplits = group?.data?.members.map((member) => ({
         userId: member._id,
-        amount: amount / group.data.members.length,
+        amount: amount / group?.data?.members?.length,
       }));
 
       setSplits(newSplits);
@@ -69,15 +69,15 @@ const ExpenseForm = ({ group, expense }) => {
     }
 
     if (expense && customSplit.length === 0) {
-      const newSplits = expense.data.splits.map((split) => ({
+      const newSplits = expense?.data?.splits.map((split) => ({
         userId: split.userId,
-        amount: amount / expense.data.splits.length,
+        amount: amount / expense?.data?.splits?.length,
       }));
 
-      setExpenseName(expense.data.expenseName);
+      setExpenseName(expense?.data?.expenseName);
       setSplits(newSplits);
-      setGroupId(expense.data.group._id);
-      setPayer(expense.data.payer._id);
+      setGroupId(expense?.data?.group._id);
+      setPayer(expense?.data?.payer._id);
     }
   }, [group, expense, amount, user._id]);
 
@@ -135,7 +135,7 @@ const ExpenseForm = ({ group, expense }) => {
           type="text"
           value={expenseName}
           onChange={(e) => setExpenseName(e.target.value)}
-          className="border rounded p-2 mt-2"
+          className="input input-bordered w-full"
           required
         />
 
@@ -144,7 +144,7 @@ const ExpenseForm = ({ group, expense }) => {
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="border rounded p-2 mt-2"
+          className="input input-bordered w-full"
           required
         />
 
@@ -224,7 +224,7 @@ const ExpenseForm = ({ group, expense }) => {
             }}
             defaultChecked={
               !expense ||
-              group?.data?.members?.length === expense?.data?.splits.length
+              group?.data?.members?.length === expense?.data?.splits?.length
             }
           />
 
@@ -246,7 +246,7 @@ const ExpenseForm = ({ group, expense }) => {
                 id="custom-button"
                 defaultChecked={
                   expense &&
-                  group?.data?.members?.length !== expense?.data?.splits.length
+                  group?.data?.members?.length !== expense?.data?.splits?.length
                 }
               />
             </div>

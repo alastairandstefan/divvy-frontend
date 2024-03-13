@@ -33,7 +33,7 @@ console.log(groupId);
   
 
   return (
-    <div className="flex flex-col h-[93%] w-[99%] p-3">
+    <div className="flex flex-col h-[90%] p-3">
 
       {!expense ? <h2 className="self-start font-medium">Create Expense</h2> : <h2 className="self-start font-medium">Edit Expense</h2>}
 
