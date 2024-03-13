@@ -25,7 +25,7 @@ const GroupDetailsPage = () => {
         <div className="w-full bg-receipt ">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="font-bold text-lg ml-3 mt-4 ">
+              <h2 className="font-bold text-lg ml-3 mt-4 capitalize">
                 {group.data && group.data.groupName}
               </h2>
               <p className="text-sm ml-3 ">Expense Overview</p>

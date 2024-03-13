@@ -22,6 +22,25 @@ const fetchUserDetails = async () => {
   return response.data;
 };
 
+// color codes for groups
+const colorCodes = [
+  '#D6A691',
+  '#B9C4C7',
+  '#DCC8A2',
+  '#B8BBC7',
+  '#C9B6C2',
+  '#CBBDA7',
+  '#BAC4C6',
+  '#C7C5BA',
+  '#B4C3C7',
+  '#C1B8C9',
+  '#C9C6BA',
+  '#BAC9B4',
+  '#C8BABF',
+  '#CDB6C2',
+  '#B8C8B4'
+];
+
 /**
  * Asynchronous function to fetch search results for a given user.
  *
