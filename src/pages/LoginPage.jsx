@@ -49,7 +49,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="relative flex flex-col justify-between w-full">
+    <div className="relative flex flex-col justify-between w-full h-[92.5%]">
       <div className="flex flex-col justify-between h-full mx-4">
         <h3 className="text-2xl my-10 sm:w-80 text-center">Login to D%VVY</h3>
         <form className="flex flex-col justify-center items-center">
