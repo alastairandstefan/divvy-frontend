@@ -66,7 +66,7 @@ const DashboardPage = () => {
         </div>
         <div className="">
           <svg
-            className="PAPERTEAR w-full h-auto"
+            className="PAPERTEAR w-full h-auto -mt-1"
             height="17"
             viewBox="0 0 368 17"
             fill="none"
@@ -81,8 +81,8 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="GROUPS w-full md:w-[49%] md:mt-3">
-        <h2>MY GROUPS</h2>
+      <div className="GROUPS w-full mt-5 md:w-[49%] md:mt-3">
+        <h2 className="text-lg font-bold">MY GROUPS</h2>
         <div className="w-full flex justify-center">
           <div className="flex flex-wrap mt-3 gap-4 w-full">
            

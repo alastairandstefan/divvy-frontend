@@ -14,7 +14,7 @@ const GroupDetailsPage = () => {
   const expenses = getExpenseByGroupId(groupId);
 
   console.log("group", group.data);
-  console.log("CaT", group.data.colorCode);
+  // console.log("CaT", group.data.colorCode);
 
   if (group.isLoading || expenses.isLoading) return <p>Loading...</p>;
   if (group.error || expenses.error) return <div>An error has occurred.</div>;
@@ -25,7 +25,7 @@ const GroupDetailsPage = () => {
         className="RECEIPT flex grow  flex-col  mt-3 mb-10"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
       >
-        <div className="w-full bg-receipt " style={{borderTop: group.data.colorCode ? `2px solid ${group.data.colorCode}` : ""}}>
+        <div className="w-full bg-receipt " style={{borderTop: group.data?.colorCode ? `2px solid ${group.data.colorCode}` : ""}}>
           <div className="flex justify-between items-center">
             <div>
               <h2 className="font-bold text-lg ml-3 mt-4 capitalize">
