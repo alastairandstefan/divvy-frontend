@@ -14,7 +14,7 @@ const LandingPage = () => {
       </div>
       <img
         src={hero}
-        className="hero md:size-[35%] md:self-center"
+        className="hero w-[70%] md:w-[35%] h-auto md:self-center"
         alt="an illustration of a group of people being happy"
       />
       <div className="flex flex-col w-full justify-evenly items-center basis-1/6">
