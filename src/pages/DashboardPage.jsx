@@ -84,7 +84,7 @@ const DashboardPage = () => {
       <div className="GROUPS w-full md:w-[49%] md:mt-3">
         <h2>MY GROUPS</h2>
         <div className="w-full flex justify-center">
-          <div className="flex flex-wrap mt-3 gap-4">
+          <div className="flex flex-wrap mt-3 gap-4 w-full">
             {groups.data &&
               groups.data.map((group) => (
                 <GroupCard
