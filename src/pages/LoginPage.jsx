@@ -86,6 +86,7 @@ const LoginPage = () => {
             </svg>
             <input
               type="password"
+              placeholder="Password"
               className="grow"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
