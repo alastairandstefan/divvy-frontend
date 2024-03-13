@@ -48,9 +48,9 @@ const AboutPage = () => {
             <img className="size-24 m-5" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"></img>
             <p>Stefan Kummerlöw</p>
             <div className="flex w-full justify-evenly mt-2">
-            <a href="" target="_blank"><i className="fa-brands fa-github" /></a>
-            <a href="" target="_blank"><i className="fa-brands fa-linkedin" /></a>
-            <a href="" target="_blank"><i className="fas fa-link" /></a>
+            <a href="https://github.com/gummiz" target="_blank"><i className="fa-brands fa-github" /></a>
+            <a href="https://www.linkedin.com/in/stefankummerloew/" target="_blank"><i className="fa-brands fa-linkedin" /></a>
+            {/* <a href="" target="_blank"><i className="fas fa-link" /></a> */}
             </div>
         </div>
         </div>
