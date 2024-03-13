@@ -1,14 +1,28 @@
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
+import { toast } from "react-toastify";
 
 import { useState, useContext } from "react";
+
+const notify = (kind, message) => {
+  toast.kind(message, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+};
 
 const NavBar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { isLoggedIn, logOutUser } = useContext(AuthContext);
 
   const logOutHandler = () => {
-    setIsNavOpen((prev) => !prev)
+    setIsNavOpen((prev) => !prev);
     logOutUser();
   };
 
@@ -114,7 +128,7 @@ const NavBar = () => {
             </ul>
           </div>
         </section>
-        
+
         {/* DESKTOP MENU */}
         {isLoggedIn ? (
           <ul className="DESKTOP-MENU hidden space-x-8 lg:flex mr-5">
@@ -137,38 +151,37 @@ const NavBar = () => {
               </Link>
             </li>
           </ul>
-        ): (
+        ) : (
           <ul className="DESKTOP-MENU hidden space-x-8 lg:flex mr-5">
-          <li>
-            <Link
-              to="/about"
-              className=" text-xl w-full"
-              onClick={() => setIsNavOpen((prev) => !prev)}
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/login"
-              className=" text-xl w-full"
-              onClick={() => setIsNavOpen((prev) => !prev)}
-            >
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/Signup"
-              className=" text-xl w-full"
-              onClick={() => setIsNavOpen((prev) => !prev)}
-            >
-              Sign Up
-            </Link>
-          </li>
-        </ul>
+            <li>
+              <Link
+                to="/about"
+                className=" text-xl w-full"
+                onClick={() => setIsNavOpen((prev) => !prev)}
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/login"
+                className=" text-xl w-full"
+                onClick={() => setIsNavOpen((prev) => !prev)}
+              >
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/Signup"
+                className=" text-xl w-full"
+                onClick={() => setIsNavOpen((prev) => !prev)}
+              >
+                Sign Up
+              </Link>
+            </li>
+          </ul>
         )}
-        
       </nav>
       <style>{`
       .hideMenuNav {

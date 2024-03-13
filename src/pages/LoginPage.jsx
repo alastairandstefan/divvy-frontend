@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useMutation } from "react-query"; // This approach provides benefits like automatic retries, error handling, and status tracking.
+import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,6 +13,20 @@ const loginMutation = async ({ email, password }) => {
     password,
   });
   return data;
+};
+
+// toast
+const notify = ( message) => {
+  toast.warning(message, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
 };
 
 const LoginPage = () => {
@@ -34,7 +49,8 @@ const LoginPage = () => {
     },
     onError: (error) => {
       const errorDescription = error.response.data.message;
-      setErrorMessage(errorDescription);
+      // setErrorMessage(errorDescription);
+      notify(errorDescription);
     },
   });
 
@@ -101,7 +117,7 @@ const LoginPage = () => {
           </button>
       
         </form>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {/* {errorMessage && <p className="error-message">{errorMessage}</p>} */}
       
       {/* log user out */}
     </div>
