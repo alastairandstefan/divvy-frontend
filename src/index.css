@@ -5,4 +5,5 @@
 html, body, #root {
   height: 100vh;
   background-color: #F3F3F3;
+  min-height: -webkit-fill-available; /* To handle Safari/iOS bottom bar */
 }
