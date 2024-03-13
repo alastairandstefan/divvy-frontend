@@ -8,6 +8,7 @@ const NavBar = () => {
   const { isLoggedIn, logOutUser } = useContext(AuthContext);
 
   const logOutHandler = () => {
+    setIsNavOpen((prev) => !prev)
     logOutUser();
   };
 
@@ -113,8 +114,31 @@ const NavBar = () => {
             </ul>
           </div>
         </section>
-
-        <ul className="DESKTOP-MENU hidden space-x-8 lg:flex mr-5">
+        
+        {/* DESKTOP MENU */}
+        {isLoggedIn ? (
+          <ul className="DESKTOP-MENU hidden space-x-8 lg:flex mr-5">
+            <li>
+              <Link
+                to="/dashboard"
+                className=" text-xl w-full"
+                onClick={() => setIsNavOpen((prev) => !prev)}
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard"
+                className=" text-xl w-full"
+                onClick={() => logOutHandler()}
+              >
+                Logout
+              </Link>
+            </li>
+          </ul>
+        ): (
+          <ul className="DESKTOP-MENU hidden space-x-8 lg:flex mr-5">
           <li>
             <Link
               to="/about"
@@ -143,6 +167,8 @@ const NavBar = () => {
             </Link>
           </li>
         </ul>
+        )}
+        
       </nav>
       <style>{`
       .hideMenuNav {
