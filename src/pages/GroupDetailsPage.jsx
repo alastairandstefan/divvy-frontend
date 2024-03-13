@@ -32,7 +32,7 @@ const GroupDetailsPage = () => {
             </div>
             <Link
               to={`/group/${groupId}/edit`}
-              className="btn btn-sm mx-3 mt-4 font-normal"
+              className="btn btn-sm bg-secondary border-none mx-3 mt-4 font-normal"
               state={{groupData: group.data}}
             >
               Edit Group

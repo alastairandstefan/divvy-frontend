@@ -324,14 +324,18 @@ const CreateGroup = ({ createGroup }) => {
   };
 
   return (
-    <div className="flex flex-col justify-between h-auto min-h-[92.5%]  bg-appbg">
-      <div className=" flex flex-col justify-between h-full mx-4 ">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="flex flex-col justify-between h-auto mx-4 min-h-[92.5%]"
+    >
+      <div>
+        {" "}
         {createGroup ? (
           <h2 className="font-bold text-lg  mt-4 mb-4">Add new group</h2>
         ) : (
           <h2 className="font-bold text-lg  mt-4 mb-4">Edit Group</h2>
         )}
-        <form onSubmit={(e) => e.preventDefault()}>
+        <div className="flex flex-col md:w-[49%]">
           <label className="form-control ">
             <div className="label">
               <span className="label-text">Name of the Group</span>
@@ -347,7 +351,6 @@ const CreateGroup = ({ createGroup }) => {
               onFocus={() => setSearchInitiated(false)} // search stopped on focus
             />
           </label>
-
           <label className="form-control">
             <div className="label">
               <span className="label-text">Search member by email:</span>
@@ -380,11 +383,10 @@ const CreateGroup = ({ createGroup }) => {
             </div>
           </label>
 
-          <div id="bottom-section" className="mt-5 w-full"></div>
-          <div className="card  bg-[#E2E4E7] text-dark mb-10">
+
+          <div className="card  bg-[#E2E4E7] text-dark mb-10 mt-5">
             <div className="card-body ">
               <h2 className="card-title text-lg">Group Members</h2>
-
               {/* Member List */}
               {members.length > 0 ? (
                 <div>
@@ -423,7 +425,6 @@ const CreateGroup = ({ createGroup }) => {
               ) : (
                 <p>No members found</p>
               )}
-
               {/* Search Results */}
               {searchInitiated && (
                 <div className="mt-5">
@@ -437,72 +438,74 @@ const CreateGroup = ({ createGroup }) => {
               )}
             </div>
           </div>
-
-          {/* Button */}
-          {!createGroup ? (
-            <div className="flex h-auto justify-between">
-              <button
-                onClick={() => handleDeleteGroup(groupData._id)}
-                className="btn bg-warning text-white w-auto border-none"
-              >
-                {" "}
-                <svg
-                  width="19"
-                  height="21"
-                  viewBox="0 0 19 21"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.1665 5.29167H17.8332M7.4165 9.45833V15.7083M11.5832 9.45833V15.7083M2.20817 5.29167L3.24984 17.7917C3.24984 18.3442 3.46933 18.8741 3.86003 19.2648C4.25073 19.6555 4.78064 19.875 5.33317 19.875H13.6665C14.219 19.875 14.7489 19.6555 15.1396 19.2648C15.5303 18.8741 15.7498 18.3442 15.7498 17.7917L16.7915 5.29167M6.37484 5.29167V2.16667C6.37484 1.8904 6.48458 1.62545 6.67993 1.4301C6.87528 1.23475 7.14024 1.125 7.4165 1.125H11.5832C11.8594 1.125 12.1244 1.23475 12.3197 1.4301C12.5151 1.62545 12.6248 1.8904 12.6248 2.16667V5.29167"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <button
-                className="btn border-none bg-secondary basis-[40%]"
-                onClick={() => {
-                  navigate(-1);
-                }}
-              >
-                CANCEL
-              </button>
-              {members.length === 1 ? (
-                <button className="btn  w-auto" disabled="disabled">
-                  Update Group
-                </button>
-              ) : (
-                // Update Group
-                <button
-                  className="btn btn-primary basis-[40%] uppercase"
-                  onClick={handleUpdateGroup}
-                >
-                  Save update
-                </button>
-              )}
-            </div>
-          ) : (
-            <div>
-              {members.length === 1 ? (
-                <button className="btn btn-primary w-full" disabled="disabled">
-                  Create Group
-                </button>
-              ) : (
-                <button
-                  className="btn btn-primary w-full"
-                  onClick={handleCreateGroup}
-                >
-                  Create Group
-                </button>
-              )}
-            </div>
-          )}
-        </form>
+        </div>
       </div>
-    </div>
+
+        {/* Button */}
+      <div className="md:w-[49%] mb-5">
+        {!createGroup ? (
+          <div className="flex h-auto justify-between">
+            <button
+              onClick={() => handleDeleteGroup(groupData._id)}
+              className="btn bg-warning text-white w-auto border-none"
+            >
+              {" "}
+              <svg
+                width="19"
+                height="21"
+                viewBox="0 0 19 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.1665 5.29167H17.8332M7.4165 9.45833V15.7083M11.5832 9.45833V15.7083M2.20817 5.29167L3.24984 17.7917C3.24984 18.3442 3.46933 18.8741 3.86003 19.2648C4.25073 19.6555 4.78064 19.875 5.33317 19.875H13.6665C14.219 19.875 14.7489 19.6555 15.1396 19.2648C15.5303 18.8741 15.7498 18.3442 15.7498 17.7917L16.7915 5.29167M6.37484 5.29167V2.16667C6.37484 1.8904 6.48458 1.62545 6.67993 1.4301C6.87528 1.23475 7.14024 1.125 7.4165 1.125H11.5832C11.8594 1.125 12.1244 1.23475 12.3197 1.4301C12.5151 1.62545 12.6248 1.8904 12.6248 2.16667V5.29167"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              className="btn border-none bg-secondary basis-[40%]"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              CANCEL
+            </button>
+            {members.length === 1 ? (
+              <button className="btn  w-auto" disabled="disabled">
+                Update Group
+              </button>
+            ) : (
+              // Update Group
+              <button
+                className="btn btn-primary basis-[40%] uppercase"
+                onClick={handleUpdateGroup}
+              >
+                Save update
+              </button>
+            )}
+          </div>
+        ) : (
+          <div>
+            {members.length === 1 ? (
+              <button className="btn btn-primary w-full" disabled="disabled">
+                Create Group
+              </button>
+            ) : (
+              <button
+                className="btn btn-primary w-full"
+                onClick={handleCreateGroup}
+              >
+                Create Group
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </form>
   );
 };
 
