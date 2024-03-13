@@ -54,9 +54,13 @@ const DashboardPage = () => {
                     group={expense.group}
                   />
                 ))}
-            {expenses.data.length === 0 && (
-              <p>You have no expanses right now</p>
-            )}
+            {expenses.data.length === 0 && (<div>
+                <p className="text-center my-10 font-bold">No expenses yet</p>
+                <p className="text-center mb-10">&#8595; Create a group and an expense to it &#8595;</p>
+                <p className="text-center">
+            ************************************************
+          </p>
+              </div>)}
             {expenses.data.length > 3 && (
               <Link to="/expenses" className="btn btn-sm  m-3">
                 Show full list
