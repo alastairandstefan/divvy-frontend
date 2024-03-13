@@ -40,7 +40,7 @@ export default {
           'base-content': '#1f2937',
           'info': '#2094f3',
           'success': '#009485',
-          'warning': '#ff9900',
+          'warning': '#ED9A8F',
           'error': '#ff5724',
         },
       },

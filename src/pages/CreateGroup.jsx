@@ -64,15 +64,14 @@ const fetchGroupDetails = async (groupID) => {
 // Component
 const CreateGroup = ({ createGroup }) => {
   const location = useLocation();
-  const { groupData } = location.state; // get groupID from location state GroupDetailsPage
-  console.log("Data", groupData);
 
+  const groupData = location.state?.groupData || {}; // get groupID from location state GroupDetailsPage
 
   const [groupName, setGroupName] = useState(groupData?.groupName || "");
   const [searchUser, setSearchUser] = useState("");
   const [searchInitiated, setSearchInitiated] = useState(false);
   const [memberList, setMemberList] = useState(groupData?.members || []);
-  const [member, setMember] = useState([]);
+  const [member, setMember] = useState(groupData?.members || []);
   const navigate = useNavigate();
 
   const searchMutation = useMutation(fetchSearchResults, {
@@ -242,6 +241,37 @@ const CreateGroup = ({ createGroup }) => {
     }
   };
 
+  // Update Group
+  const handleUpdateGroup = async (e) => {
+    e.preventDefault();
+    // console.log("Output", { groupName, member })
+    if (!groupName || !member) {
+      toast.warning("Please fill in all fields", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+    try {
+      const storedToken = localStorage.getItem("authToken");
+      const response = await axios.put("/api/groups/" + groupData._id, { groupName, members: member }, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      });
+      console.log(response.data);
+      navigate("/dashboard");
+      return response.data;
+    } catch (error) {
+      console.error("Failed to update group:", error);
+    }}
+
   return (
     <div className="lex flex-col justify-between h-auto min-h-[90%]  bg-appbg">
       <div className=" flex flex-col justify-between h-full mx-4 ">
@@ -252,17 +282,16 @@ const CreateGroup = ({ createGroup }) => {
         )}
         <label className="form-control ">
           <div className="label">
-           
             <span className="label-text">Name of the Group</span>
           </div>
           <input
             type="text"
             placeholder=""
             className="input input-bordered w-full sm:w-80 mb-4"
-            // check if groupName is not empty (edit mode)
-            value={!createGroup && groupData ? groupData.groupName : groupName}
-            
-            onChange={(e) => setGroupName(e.target.value)}
+            value={groupName}
+            onChange={(e) => {
+              setGroupName(e.target.value);
+            }}
             onFocus={() => setSearchInitiated(false)} // search stopped on focus
           />
         </label>
@@ -355,7 +384,7 @@ const CreateGroup = ({ createGroup }) => {
                 }
                 navigate("/dashboard");
               }}
-              className="btn bg-[#ED9A8F] text-white w-auto"
+              className="btn bg-warning text-white w-auto border-none"
             >
               {" "}
               <svg
@@ -375,7 +404,7 @@ const CreateGroup = ({ createGroup }) => {
               </svg>
             </button>
             <button
-              className="btn btn-md bg-secondary border-1 basis-[40%]"
+              className="btn border-none bg-secondary basis-[40%]"
               onClick={() => {
                 navigate(-1);
               }}
@@ -387,8 +416,13 @@ const CreateGroup = ({ createGroup }) => {
                 Update Group
               </button>
             ) : (
-              <button className="btn  w-auto" disabled="disabled">
-                Update Group
+
+              // Update Group 
+              <button
+                className="btn btn-primary basis-[40%] uppercase"
+                onClick={handleUpdateGroup}
+              >
+                Save update
               </button>
             )}
           </div>
@@ -396,11 +430,14 @@ const CreateGroup = ({ createGroup }) => {
           <div>
             {memberList.length === 1 ? (
               <button className="btn  w-full" disabled="disabled">
-                Update Group
+                Create Group
               </button>
             ) : (
-              <button className="btn  w-full" disabled="disabled">
-                Update Group
+              <button
+                className="btn btn-primary w-full"
+                onClick={handleCreateGroup}
+              >
+                Create Group
               </button>
             )}
           </div>
