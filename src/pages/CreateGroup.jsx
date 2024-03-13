@@ -66,13 +66,27 @@ const CreateGroup = ({ createGroup }) => {
   const location = useLocation();
 
   const groupData = location.state?.groupData || {}; // get groupID from location state GroupDetailsPage
+  console.log("groupData:", groupData);
 
   const [groupName, setGroupName] = useState(groupData?.groupName || "");
   const [searchUser, setSearchUser] = useState("");
   const [searchInitiated, setSearchInitiated] = useState(false);
-  const [memberList, setMemberList] = useState(groupData?.members || []);
-  const [member, setMember] = useState(groupData?.members || []);
+  const [members, setMembers] = useState(groupData?.members || []);
   const navigate = useNavigate();
+
+  // Initialize members with existing members when the component mounts or when the group data is loaded
+  useEffect(() => {
+    if (groupData && groupData.members) {
+      setMembers(
+        groupData.members.map((member) => ({
+          id: member._id,
+          name: member.name,
+          email: member.email,
+        }))
+      );
+    }
+  }, [groupData]);
+  
 
   const searchMutation = useMutation(fetchSearchResults, {
     onSuccess: (data) => {
@@ -98,8 +112,6 @@ const CreateGroup = ({ createGroup }) => {
     },
   });
 
-  
-
   // Search for user
   const handleSearchClick = (e) => {
     e.preventDefault();
@@ -124,19 +136,15 @@ const CreateGroup = ({ createGroup }) => {
     }
   };
 
-  // Add user to group - called from UserResults.jsx
+  // Function to add a member
   const handleAddUserToGroup = (newMember) => {
     setSearchInitiated(false);
     const { id, name, email } = newMember;
-    // console.log("Member", newMember);
 
-    // check if userId is already in member array
-    if (!member.includes(id)) {
-      // add userId to member array
-      setMember((prevMember) => [...prevMember, id]);
-
-      setMemberList((prevMemberList) => [...prevMemberList, { ...newMember }]);
-      // console.log("MemberList200", memberList);
+    // Check if userId is already in members array
+    if (!members.some((member) => member.id === id)) {
+      // Add user object to members array
+      setMembers((prevMembers) => [...prevMembers, { id, name, email }]);
 
       toast.success("User added to group", {
         position: "top-right",
@@ -160,20 +168,13 @@ const CreateGroup = ({ createGroup }) => {
         theme: "light",
       });
     }
-
-    // console.log("Member", member);
   };
 
+  // Function to remove a member
   const handleDeleteMember = (id) => {
-    // console.log("incoming ID", id);
-    const updatedData = memberList.filter((item) => item.id !== id);
-    // console.log("updatedData", updatedData);
-    setMemberList(updatedData);
-    setMember((prevMember) => prevMember.filter((member) => member !== id));
-    setMemberList((prevMemberList) =>
-      prevMemberList.filter((member) => member._id !== id)
-    );
-    // console.log("MemberList update", memberList);
+    const updatedMembers = members.filter((member) => member.id !== id);
+    setMembers(updatedMembers);
+
     toast.error("User removed from group", {
       position: "top-right",
       autoClose: 5000,
@@ -189,28 +190,29 @@ const CreateGroup = ({ createGroup }) => {
   const { data: searchResults, isLoading, error } = searchMutation;
   const { data: loggedInUser } = useQuery("loggedInUser", fetchUserDetails);
 
-  // if loggedInUser, add loggedInUser to member array if not already in
-  useEffect(() => {});
+  // Correct the useEffect hook to add the loggedInUser to the members array
 
-  if (loggedInUser) {
-    // console.log("loggedInUser", loggedInUser);
-    if (!member.includes(loggedInUser._id)) {
-      setMember((prevMember) => [...prevMember, loggedInUser._id]);
-      setMemberList((prevMemberList) => [
-        ...prevMemberList,
-        { ...loggedInUser },
+  if (loggedInUser && createGroup) {
+    // Check if loggedInUser is already in members array
+    if (!members.some((member) => member.id === loggedInUser._id)) {
+      // Add loggedInUser to members array
+      setMembers((prevMembers) => [
+        ...prevMembers,
+        {
+          id: loggedInUser._id,
+          name: loggedInUser.name,
+          email: loggedInUser.email,
+        },
       ]);
-      // console.log("loggedInUser", loggedInUser.name);
-      // console.log("On Login Member", loggedInUser);
-      // console.log("MemberList Login", memberList);
     }
   }
 
   // Create Group or edit group
   const handleCreateGroup = async (e) => {
     e.preventDefault();
-    // console.log("Output", { groupName, member })
-    if (!groupName || !member) {
+    const memberIds = members.map((member) => member.id);
+    console.log("Output", { groupName, members: memberIds });
+    if (!groupName || !members) {
       toast.warning("Please fill in all fields", {
         position: "top-right",
         autoClose: 5000,
@@ -227,7 +229,7 @@ const CreateGroup = ({ createGroup }) => {
       const storedToken = localStorage.getItem("authToken");
       const response = await axios.post(
         `${API_URL}/api/groups`,
-        { groupName, members: member },
+        { groupName, members: memberIds },
         {
           headers: {
             Authorization: `Bearer ${storedToken}`,
@@ -244,8 +246,9 @@ const CreateGroup = ({ createGroup }) => {
   // Update Group
   const handleUpdateGroup = async (e) => {
     e.preventDefault();
-    console.log("Output", { id: groupData._id, groupName, members: member } )
-    if (!groupName || !member) {
+    const memberIds = members.map((member) => member.id);
+    console.log("Output", { id: groupData._id, groupName, members: memberIds });
+    if (!groupName || memberIds.length === 0) {
       toast.warning("Please fill in all fields", {
         position: "top-right",
         autoClose: 5000,
@@ -260,11 +263,15 @@ const CreateGroup = ({ createGroup }) => {
     }
     try {
       const storedToken = localStorage.getItem("authToken");
-      const response = await axios.put( `${API_URL}/api/groups/` + groupData._id, { groupName, members: member }, {
-        headers: {
-          Authorization: `Bearer ${storedToken}`,
-        },
-      });
+      const response = await axios.put(
+        `${API_URL}/api/groups/` + groupData._id,
+        { groupName, members: memberIds },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
       console.log(response.data);
       navigate(-1);
       return response.data;
@@ -279,26 +286,43 @@ const CreateGroup = ({ createGroup }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-      })
-    }}
+      });
+    }
+  };
 
-    // delete group
-    const handleDeleteGroup = async (e) => {
-      // e.preventDefault();
-      try {
-        const storedToken = localStorage.getItem("authToken");
-        const response = await axios.delete(`${API_URL}/api/groups/` + groupData._id, {
+  // delete group
+  const handleDeleteGroup = async (e) => {
+    // check if loggedInUser is the owner of the group
+    console.log(groupData.members[0]._id);
+    if (loggedInUser._id !== groupData.members[0]._id) {
+      toast.error("You are not the owner of this group", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+    try {
+      const storedToken = localStorage.getItem("authToken");
+      const response = await axios.delete(
+        `${API_URL}/api/groups/` + groupData._id,
+        {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },
-        });
-        navigate("/dashboard");
-        return response.data;
-      } catch (error) {
-        console.error("Failed to delete group:", error);
-      }
+        }
+      );
+      navigate("/dashboard");
+      return response.data;
+    } catch (error) {
+      console.error("Failed to delete group:", error);
     }
-
+  };
 
   return (
     <div className="lex flex-col justify-between h-auto min-h-[90%]  bg-appbg">
@@ -354,11 +378,15 @@ const CreateGroup = ({ createGroup }) => {
             <h2 className="card-title text-lg">Group Members</h2>
 
             {/* Member List */}
-            {memberList.length > 0 ? (
+            {members.length > 0 ? (
               <div>
-                {memberList.map((member, index) => (
+                {members.map((member, index) => (
                   <div key={index} className="flex">
-                    <p>{member.name}</p>
+                    <p>
+                      {member.name}
+                      {index == 0 ? " (Creator)" : ""}
+                      {member.name === loggedInUser?.name ? " (You)" : ""}
+                    </p>
                     {/* delete button */}
                     {index !== 0 && ( // Add this line to skip the first element
                       <button
@@ -434,13 +462,12 @@ const CreateGroup = ({ createGroup }) => {
             >
               CANCEL
             </button>
-            {memberList.length === 1 ? (
+            {members.length === 1 ? (
               <button className="btn  w-auto" disabled="disabled">
                 Update Group
               </button>
             ) : (
-
-              // Update Group 
+              // Update Group
               <button
                 className="btn btn-primary basis-[40%] uppercase"
                 onClick={handleUpdateGroup}
@@ -451,8 +478,8 @@ const CreateGroup = ({ createGroup }) => {
           </div>
         ) : (
           <div>
-            {memberList.length === 1 ? (
-              <button className="btn  w-full" disabled="disabled">
+            {members.length === 1 ? (
+              <button className="btn btn-primary w-full" disabled="disabled">
                 Create Group
               </button>
             ) : (
