@@ -234,8 +234,8 @@ const CreateGroup = ({ createGroup }) => {
           },
         }
       );
-      // console.log(response.data);
-      navigate("/dashboard");
+      //navigate to newly created group
+      navigate(`/group/${response.data._id}`);
     } catch (error) {
       console.error("Failed to create group:", error);
     }
@@ -244,7 +244,7 @@ const CreateGroup = ({ createGroup }) => {
   // Update Group
   const handleUpdateGroup = async (e) => {
     e.preventDefault();
-    // console.log("Output", { groupName, member })
+    console.log("Output", { id: groupData._id, groupName, members: member } )
     if (!groupName || !member) {
       toast.warning("Please fill in all fields", {
         position: "top-right",
@@ -260,17 +260,45 @@ const CreateGroup = ({ createGroup }) => {
     }
     try {
       const storedToken = localStorage.getItem("authToken");
-      const response = await axios.put("/api/groups/" + groupData._id, { groupName, members: member }, {
+      const response = await axios.put( `${API_URL}/api/groups/` + groupData._id, { groupName, members: member }, {
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
       });
       console.log(response.data);
-      navigate("/dashboard");
+      navigate(-1);
       return response.data;
     } catch (error) {
       console.error("Failed to update group:", error);
+      toast.error("Failed to update group", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
     }}
+
+    // delete group
+    const handleDeleteGroup = async (e) => {
+      // e.preventDefault();
+      try {
+        const storedToken = localStorage.getItem("authToken");
+        const response = await axios.delete(`${API_URL}/api/groups/` + groupData._id, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        });
+        navigate("/dashboard");
+        return response.data;
+      } catch (error) {
+        console.error("Failed to delete group:", error);
+      }
+    }
+
 
   return (
     <div className="lex flex-col justify-between h-auto min-h-[90%]  bg-appbg">
@@ -378,12 +406,7 @@ const CreateGroup = ({ createGroup }) => {
         {!createGroup ? (
           <div className="flex h-auto justify-between">
             <button
-              onClick={() => {
-                if (groupId) {
-                  deleteGroup(groupId);
-                }
-                navigate("/dashboard");
-              }}
+              onClick={() => handleDeleteGroup(groupData._id)}
               className="btn bg-warning text-white w-auto border-none"
             >
               {" "}
