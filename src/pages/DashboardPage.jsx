@@ -20,9 +20,9 @@ const DashboardPage = () => {
   if (groups.error || expenses.error) return <div>An error has occurred.</div>;
 
   return (
-    <div className="DASHBOARD flex flex-col justify-between  p-3 bg-appbg">
+    <div className="DASHBOARD flex flex-col md:flex-row justify-between w-full h-auto min-h-[92.5%] p-3 bg-appbg">
       <div
-        className="RECEIPT flex grow  flex-col  mt-3 mb-10"
+        className="RECEIPT flex w-full flex-col  mt-3 md:w-[49%]"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
       >
         <div className="w-full bg-receipt ">
@@ -64,7 +64,7 @@ const DashboardPage = () => {
             )}
           </div>
         </div>
-        <div className="-mt-2">
+        <div className="">
           <svg
             className="PAPERTEAR w-full h-auto"
             height="17"
@@ -81,24 +81,25 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="GROUPS w-full">
+      <div className="GROUPS w-full md:w-[49%] md:mt-3">
         <h2>MY GROUPS</h2>
-
-        <div className="flex flex-wrap mt-3 gap-4">
-          {groups.data &&
-            groups.data.map((group) => (
-              <GroupCard
-                groupName={group.groupName}
-                key={group._id}
-                id={group._id}
-              />
-            ))}
-          <Link
-            to={"/group/create"}
-            className="btn h-24 border-1 border-slate-500 border-dashed bg-transparent basis-[30%] rounded-xl"
-          >
-            +
-          </Link>
+        <div className="w-full flex justify-center">
+          <div className="flex flex-wrap mt-3 gap-4">
+            {groups.data &&
+              groups.data.map((group) => (
+                <GroupCard
+                  groupName={group.groupName}
+                  key={group._id}
+                  id={group._id}
+                />
+              ))}
+            <Link
+              to={"/group/create"}
+              className="btn h-24 border-1 border-slate-500 border-dashed bg-transparent basis-[30%] md:basis-[22%] rounded-xl"
+            >
+              +
+            </Link>
+          </div>
         </div>
       </div>
     </div>
