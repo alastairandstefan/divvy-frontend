@@ -1,17 +1,17 @@
 const AboutPage = () => {
   return (
-    <div className="DASHBOARD flex flex-col justify-between p-2 bg-appbg h-[70%]">
+    <div className="DASHBOARD flex flex-col justify-between p-2 bg-appbg h-[92.5%]">
       <div
-        className="RECEIPT flex grow  flex-col  mt-3 mb-10"
+        className="RECEIPT flex grow  flex-col"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
       />
-      <div className="w-full bg-receipt p-6 flex flex-col h-full justify-between">
+      <div className="w-full bg-receipt p-4 flex flex-col h-full justify-evenly">
         <h1 className="font-bold text-lg">
           About D%VVY
         </h1>
 
         <p className="text-center my-2">
-          ********************************************************
+          ***********************************************
         </p>
 
         <p>

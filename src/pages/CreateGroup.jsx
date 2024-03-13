@@ -301,7 +301,7 @@ const CreateGroup = ({ createGroup }) => {
 
 
   return (
-    <div className="lex flex-col justify-between h-auto min-h-[90%]  bg-appbg">
+    <div className="lex flex-col justify-between h-auto min-h-[92.5%]  bg-appbg">
       <div className=" flex flex-col justify-between h-full mx-4 ">
         {createGroup ? (
           <h2 className="font-bold text-lg  mt-4 mb-4">Add new group</h2>
