@@ -49,8 +49,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="relative flex flex-col justify-between w-full h-[92.5%]">
-      <div className="flex flex-col justify-between h-full mx-4">
+    <div className="relative flex flex-col w-full h-[92.5%]">
         <h3 className="text-2xl my-10 sm:w-80 text-center">Login to D%VVY</h3>
         <form className="flex flex-col justify-center items-center">
           <label className="input input-bordered flex items-center gap-2 w-full max-w-80 mb-4">
@@ -102,7 +101,7 @@ const LoginPage = () => {
       
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-      </div>
+      
       {/* log user out */}
     </div>
   );
