@@ -167,8 +167,8 @@ const ExpenseForm = ({ group, expense }) => {
  
 
   return (
-    <form className="h-full flex flex-col justify-between mt-5 md:flex-row">
-      <div className="flex flex-col md:w-[49%]">
+    <form className="h-full flex flex-col justify-between mt-5 sm:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[40%] mx-auto">
+      <div className="flex flex-col ">
         <label className="text-slate-600">Expense name</label>
         <input
           type="text"
@@ -319,11 +319,11 @@ const ExpenseForm = ({ group, expense }) => {
 
       {errorMessage && <p>{errorMessage}</p>}
 
-      <div className="md:w-[49%]">
-        <div className="flex justify-between mt-5 md:flex-col-reverse md:h-[50%] md:justify-end md:gap-3 md:items-center">
+      <div className="">
+        <div className="flex justify-between mt-5  ">
           {expense.data && (
             <button
-              className="btn btn-warning btn-md rounded-lg border-1 basis-[15%] md:basis-[8%] md:w-[50%]"
+              className="btn btn-warning btn-md rounded-lg border-1  "
               onClick={() => {
                 if (expense.data) {
                   deleteExpenseByExpenseId(expense.data._id);
@@ -364,7 +364,7 @@ const ExpenseForm = ({ group, expense }) => {
           </button>
 
           <button
-            className={`btn btn-primary btn-md rounded-lg border-1 md:basis-[8%] ${
+            className={`btn btn-primary btn-md rounded-lg border-1  ${
               expense?.data ? "basis-[40%]" : "basis-[49%]"
             }`}
             onClick={saveExpenseClick}

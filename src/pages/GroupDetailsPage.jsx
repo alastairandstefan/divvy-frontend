@@ -21,7 +21,7 @@ const GroupDetailsPage = () => {
   if (group.error || expenses.error) return <div>An error has occurred.</div>;
 
   return (
-    <div className="GROUPDETAILS flex flex-col justify-between  min-h-[92.5%] p-3 overflow-visible">
+    <div className="GROUPDETAILS flex flex-col justify-between  min-h-[92.5%] p-3 overflow-visible sm:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[40%] mx-auto">
       <div
         className="RECEIPT flex grow  flex-col  mt-3 mb-10"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
