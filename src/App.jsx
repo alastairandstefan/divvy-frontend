@@ -99,6 +99,15 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="*"
+          element={
+            <AnonymousRoute>
+              <LandingPage />
+            </AnonymousRoute>
+          }
+        />
       </Routes>
       <ToastContainer />
     </>
