@@ -1,8 +1,17 @@
 # Divvy Frontend
 
+
+
 ## Overview
 
 Divvy is a full-stack application designed to help users manage their finances more effectively. This document provides an overview of the frontend component of Divvy, which is built using React and Vite. The frontend provides a user interface for users to interact with the backend services.
+
+### Demo
+
+Here you can find the frontend demo of the project: [<kbd> <br> View Demo <br> </kbd>](https://divvy-frontend.netlify.app/dashboard)
+
+
+
 
 ## Getting Started
 
