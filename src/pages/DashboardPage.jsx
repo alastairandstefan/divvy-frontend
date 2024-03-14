@@ -20,6 +20,8 @@ const DashboardPage = () => {
 
   const [receiptLength, setReceiptLength] = useState(3);
 
+  const [asterixLength, setAsterixLength] = useState("*************************************");
+
   useEffect(() => {
     const handleResize = () => {
       const vw = Math.max(
@@ -27,6 +29,7 @@ const DashboardPage = () => {
         window.innerWidth || 0
       );
       setReceiptLength(vw > 768 ? 5 : 3);
+      setAsterixLength(vw > 768 ? "*******************************************" : "*************************************");
     };
 
     handleResize();
@@ -42,10 +45,10 @@ const DashboardPage = () => {
   if (groups.error || expenses.error) return <div>An error has occurred.</div>;
 
   return (
-    <div className="DASHBOARD flex flex-col md:flex-row justify-between md:justify-evenly w-full h-auto min-h-[92.5%] p-3 bg-appbg">
+    <div className="DASHBOARD flex flex-col md:flex-row justify-between md:justify-evenly w-full h-auto min-h-[92.5%] p-3 bg-appbg overflow-visible">
       <div
-        className="RECEIPT flex w-full flex-col  mt-3 md:w-[31%]"
-        style={{ filter: `drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.1))` }}
+        className="RECEIPT flex w-full flex-col mt-3 md:w-[31%]"
+        style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1))` }}
       >
         <div className="w-full bg-receipt ">
           {user.name ? (
@@ -57,7 +60,7 @@ const DashboardPage = () => {
             <h1>Welcome</h1>
           )}
           <p className="text-center">
-            ************************************************
+            {asterixLength}
           </p>
 
           {/* Expenses */}
