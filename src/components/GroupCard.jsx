@@ -9,7 +9,7 @@ const GroupCard = ({ groupName, id, groupColor }) => {
         className="card h-14 w-12 rounded-xl bg-slate-300 shadow-xl flex justify-center items-center basis-[100%] md:basis-[48%]"
         style={{backgroundColor: groupColor}}
       >
-        <h1>{groupName}</h1>
+        <h1 className="capitalize">{groupName}</h1>
       </Link>
     )
   } 
@@ -19,7 +19,7 @@ const GroupCard = ({ groupName, id, groupColor }) => {
       to={`/group/${id}`}
       className="card h-14 w-12 rounded-xl bg-slate-300 shadow-xl flex justify-center items-center basis-[100%] md:basis-[48%]"
     >
-      <h1>{groupName}</h1>
+      <h1 className="capitalize">{groupName}</h1>
     </Link>
   );
 };

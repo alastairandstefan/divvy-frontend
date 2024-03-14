@@ -96,7 +96,7 @@ const DashboardPage = () => {
         </div>
         <div className="">
           <svg
-            className="PAPERTEAR w-full h-auto -mt-1"
+            className="PAPERTEAR w-full h-auto"
             height="17"
             viewBox="0 0 368 17"
             fill="none"
