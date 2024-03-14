@@ -19,7 +19,7 @@ const ManageExpensePage = () => {
       enabled: !!expenseId,
     });
 
-   const group = useQuery("group", () => getGroupByGroupId(expense.data.group || groupId), {
+   const group = useQuery("group", () => getGroupByGroupId(expense?.data?.group || groupId), {
       enabled: !!expense?.data?.group || !!groupId,
     });
 
@@ -30,9 +30,6 @@ const ManageExpensePage = () => {
 
   if (group?.isLoading ||expense?.isLoading) return <div>Loading...</div>;
   if (group?.error || expense?.error) return <div>An error has occurred.</div>;
-
-  console.log(expense)
-  console.log(group)
   
 
   return (

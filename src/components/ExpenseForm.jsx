@@ -352,7 +352,8 @@ const ExpenseForm = ({ group, expense }) => {
           )}
 
           <button
-            className="btn btn-md rounded-lg border-1 basis-[40%] md:basis-[8%]"
+            className={`btn btn-md rounded-lg border-1 basis-[40%] ${
+              expense?.data ? "basis-[40%]" : "basis-[49%]"}`}
             onClick={() => {
               
               navigate('/dashboard');
@@ -364,7 +365,7 @@ const ExpenseForm = ({ group, expense }) => {
 
           <button
             className={`btn btn-primary btn-md rounded-lg border-1 md:basis-[8%] ${
-              expense ? "basis-[40%]" : "basis-[55%]"
+              expense?.data ? "basis-[40%]" : "basis-[49%]"
             }`}
             onClick={saveExpenseClick}
           >
