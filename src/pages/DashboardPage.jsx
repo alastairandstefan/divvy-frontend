@@ -10,6 +10,7 @@ import {
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import { useQueryClient } from "react-query";
+import { useState, useEffect } from "react";
 
 const DashboardPage = () => {
   const groups = useQuery("groups", getGroupsOfUser);
@@ -18,13 +19,40 @@ const DashboardPage = () => {
 
   const { user } = useContext(AuthContext);
 
+ 
+  const [receiptLength, setReceiptLength] = useState(3);
+
+  useEffect(() => {
+    
+    function handleResize() {
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      setReceiptLength(vw > 768 ? 5 : 3);
+    }
+
+    // Initial call
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+ 
+
+  
+
   if (groups.isLoading || expenses.isLoading) return <div>Loading...</div>;
   if (groups.error || expenses.error) return <div>An error has occurred.</div>;
 
   return (
-    <div className="DASHBOARD flex flex-col md:flex-row justify-between w-full h-auto min-h-[92.5%] p-3 bg-appbg">
+    <div className="DASHBOARD flex flex-col md:flex-row justify-evenly w-full h-auto min-h-[92.5%] p-3 bg-appbg">
       <div
-        className="RECEIPT flex w-full flex-col  mt-3 md:w-[49%]"
+        className="RECEIPT flex w-full flex-col  mt-3 md:w-[31%]"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
       >
         <div className="w-full bg-receipt ">
@@ -44,7 +72,7 @@ const DashboardPage = () => {
           <div className="flex flex-col items-center">
             {expenses.data &&
               expenses.data
-                .slice(0, 3)
+                .slice(0, receiptLength)
                 .map((expense) => (
                   <Expense
                     key={expense._id}
@@ -63,7 +91,7 @@ const DashboardPage = () => {
             ************************************************
           </p>
               </div>)}
-            {expenses.data.length > 3 && (
+            {expenses.data.length > receiptLength && (
               <Link to="/expenses" className="btn btn-sm  m-3">
                 Show full list
               </Link>
@@ -104,7 +132,7 @@ const DashboardPage = () => {
               ))}
             <Link
               to={"/group/create"}
-              className="btn h-10 border-1 border-slate-500 border-dashed bg-transparent basis-[100%] md:basis-[48%] rounded-xl"
+              className="btn h-14 border-1 border-slate-500 border-dashed bg-transparent basis-[100%] md:basis-[48%] rounded-xl"
             >
               +
             </Link>
