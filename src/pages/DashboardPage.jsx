@@ -45,7 +45,7 @@ const DashboardPage = () => {
     <div className="DASHBOARD flex flex-col md:flex-row justify-between md:justify-evenly w-full h-auto min-h-[92.5%] p-3 bg-appbg">
       <div
         className="RECEIPT flex w-full flex-col  mt-3 md:w-[31%]"
-        style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
+        style={{ filter: `drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.1))` }}
       >
         <div className="w-full bg-receipt ">
           {user.name ? (
@@ -94,7 +94,7 @@ const DashboardPage = () => {
             )}
           </div>
         </div>
-        <div className="-mt-2">
+        <div className="mt-0">
           <svg
             className="PAPERTEAR w-full h-auto"
             height="17"
