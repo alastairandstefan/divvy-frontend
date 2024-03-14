@@ -56,9 +56,13 @@ const DashboardPage = () => {
                     groupId={expense.group}
                   />
                 ))}
-            {expenses.data.length === 0 && (
-              <p>You have no expanses right now</p>
-            )}
+            {expenses.data.length === 0 && (<div>
+                <p className="text-center my-10 font-bold">No expenses yet</p>
+                <p className="text-center mb-10">&#8595; Create a group and an expense to it &#8595;</p>
+                <p className="text-center">
+            ************************************************
+          </p>
+              </div>)}
             {expenses.data.length > 3 && (
               <Link to="/expenses" className="btn btn-sm  m-3">
                 Show full list
@@ -68,7 +72,7 @@ const DashboardPage = () => {
         </div>
         <div className="">
           <svg
-            className="PAPERTEAR w-full h-auto"
+            className="PAPERTEAR w-full h-auto -mt-1"
             height="17"
             viewBox="0 0 368 17"
             fill="none"
@@ -83,16 +87,19 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="GROUPS w-full md:w-[49%] md:mt-3">
-        <h2>MY GROUPS</h2>
+      <div className="GROUPS w-full mt-5 md:w-[49%] md:mt-3">
+        <h2 className="text-lg font-bold">MY GROUPS</h2>
         <div className="w-full flex justify-center">
           <div className="flex flex-wrap mt-3 gap-4 w-full">
+           
             {groups.data &&
               groups.data.map((group) => (
+                
                 <GroupCard
                   groupName={group.groupName}
                   key={group._id}
                   id={group._id}
+                  groupColor={group.colorCode}
                 />
               ))}
             <Link

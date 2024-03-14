@@ -22,6 +22,25 @@ const fetchUserDetails = async () => {
   return response.data;
 };
 
+// color codes for groups
+const colorCodes = [
+  '#FFB380', // Light Orange
+  '#FFCC66', // Yellow
+  '#FF9999', // Muted Red
+  '#CC99FF', // Muted Purple
+  '#6699FF', // Muted Blue
+  '#66CCCC', // Light Cyan
+  '#99CC66', // Muted Green
+  '#FF9966', // Orange
+  '#FFCC99', // Peach
+  '#CC99CC', // Mauve
+  '#99CCFF', // Sky Blue
+  '#99FF99', // Light Green
+  '#FF6666', // Red
+  '#FFCC66', // Gold
+  '#FF9933'  // Muted Orange
+];
+
 /**
  * Asynchronous function to fetch search results for a given user.
  *
@@ -209,8 +228,13 @@ const CreateGroup = ({ createGroup }) => {
   // Create Group or edit group
   const handleCreateGroup = async (e) => {
     e.preventDefault();
+    // pick random group color from color codes
+    // const colorCode = "#" + Math.floor(Math.random()*16777215).toString(16);
+    const colorCode = colorCodes[Math.floor(Math.random() * colorCodes.length)];
+
+    // get existing members 
     const memberIds = members.map((member) => member.id);
-    console.log("Output", { groupName, members: memberIds });
+    console.log("Output", { groupName, members: memberIds, colorCode });
     if (!groupName || !members) {
       toast.warning("Please fill in all fields", {
         position: "top-right",
@@ -228,7 +252,7 @@ const CreateGroup = ({ createGroup }) => {
       const storedToken = localStorage.getItem("authToken");
       const response = await axios.post(
         `${API_URL}/api/groups`,
-        { groupName, members: memberIds },
+        { groupName, members: memberIds, colorCode },
         {
           headers: {
             Authorization: `Bearer ${storedToken}`,

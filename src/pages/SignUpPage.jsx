@@ -16,6 +16,21 @@ const signUpMutation = async ({ email, name, password }) => {
   return data;
 };
 
+// toasts
+const notify = ( message) => {
+  toast.warning(message, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+};
+
+
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -29,27 +44,18 @@ const SignUpPage = () => {
   const mutation = useMutation(signUpMutation, {
     onSuccess: (data) => {
       storeToken(data.authToken);
-      console.log("JWT token", data.authToken);
+      // console.log("JWT token", data.authToken);
       authenticateUser();
     //   navigate("/dashboard");
     },
     onError: (error) => {
       const errorDescription = error.response.data.message;
-      setErrorMessage(errorDescription);
+      // setErrorMessage(errorDescription);
+      notify(errorDescription);
     },
   });
 
-  const errorHandlerToast = () => {
-    toast.error(errorMessage, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+
 
   const signUpHandler = (e) => {
     e.preventDefault();
@@ -126,7 +132,7 @@ const SignUpPage = () => {
             Sign up
           </button>
         </form>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {/* {errorMessage && <p className="error-message">{errorMessage}</p>} */}
       </div>
     </div>
   );
