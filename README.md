@@ -51,4 +51,4 @@ Here you can find the frontend demo of the project: [<kbd> <br> View Demo <b
 
 ## Divvy Backend
 
-You can find the Repo to the backend here: [Backend](https://github.com/alastairandstefan/divvy-backend)
+You can find the repository to the backend here: [Backend](https://github.com/alastairandstefan/divvy-backend)
