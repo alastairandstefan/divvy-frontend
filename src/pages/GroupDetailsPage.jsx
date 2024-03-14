@@ -3,15 +3,19 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Expense from "../components/Expense";
 import {
-  getExpenseByGroupId,
+  getExpensesByGroupId,
   getGroupByGroupId,
 } from "../components/CRUDFunctions";
+import { useQueryClient } from "react-query";
 
 const GroupDetailsPage = () => {
   const { groupId } = useParams();
 
-  const group = getGroupByGroupId(groupId);
-  const expenses = getExpenseByGroupId(groupId);
+  const queryClient = useQueryClient();
+  queryClient.removeQueries("expense");
+
+  const group = useQuery("group", () => getGroupByGroupId(groupId));
+  const expenses = useQuery("expenses", () => getExpensesByGroupId(groupId));
 
   if (group.isLoading || expenses.isLoading) return <p>Loading...</p>;
   if (group.error || expenses.error) return <div>An error has occurred.</div>;

@@ -9,10 +9,12 @@ import {
 } from "../components/CRUDFunctions";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
+import { useQueryClient } from "react-query";
 
 const DashboardPage = () => {
-  const groups = getGroupsOfUser();
-  const expenses = getExpensesOfUser();
+  const groups = useQuery("groups", getGroupsOfUser);
+  const expenses = useQuery("expenses", getExpensesOfUser);
+
 
   const { user } = useContext(AuthContext);
 
@@ -51,7 +53,7 @@ const DashboardPage = () => {
                     payer={expense.payer}
                     splits={expense.splits}
                     expenseId={expense._id}
-                    group={expense.group}
+                    groupId={expense.group}
                   />
                 ))}
             {expenses.data.length === 0 && (

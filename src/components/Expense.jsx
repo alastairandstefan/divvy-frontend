@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
-const Expense = ({ expenseName, amount, expenseId, payer, splits, group }) => {
+const Expense = ({ expenseName, amount, expenseId, payer, splits, groupId }) => {
   // IMPORT LOGGED IN USER INFO
   const { user } = useContext(AuthContext);
 
@@ -20,7 +20,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits, group }) => {
     return (
       <Link
         to={`/expense/${expenseId}/edit`}
-        state={group}
+        state={{ groupId }}
         className="w-full px-6 mb-6 py-0 flex-col justify-center items-center"
       >
         {/* capitalize first letter */}
@@ -40,7 +40,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits, group }) => {
     return (
       <Link
         to={`/expense/${expenseId}/edit`}
-        state={group}
+        state={{ groupId }}
         className="w-full px-6 mb-6 py-0 flex-col justify-center items-center"
       >
         {/* capitalize first letter */}

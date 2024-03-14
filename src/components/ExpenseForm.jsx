@@ -12,18 +12,21 @@ const ExpenseForm = ({ group, expense }) => {
   const { user } = useContext(AuthContext);
 
   // Ensure proper initialization of state values
-  const [expenseName, setExpenseName] = useState(
-    expense?.data.expenseName || ""
-  );
-  const [amount, setAmount] = useState(expense?.data?.amount || "");
-  const [groupId, setGroupId] = useState(group?.data?._id || "");
-  const [payer, setPayer] = useState(expense?.data?.payer._id || "");
-  const [splits, setSplits] = useState([]);
-  const [customSplit, setCustomSplit] = useState([]);
-  const [expenseId, setExpenseId] = useState(expense?.data?._id || "");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [expenseName, setExpenseName] = useState(null);
+  const [amount, setAmount] = useState(null);
+  const [groupId, setGroupId] = useState(null);
+  const [payer, setPayer] = useState(null);
+  const [splits, setSplits] = useState(null);
+  const [customSplit, setCustomSplit] = useState(null);
+  const [expenseId, setExpenseId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const customButton = document.getElementById("custom-button");
+  const customButtonOperator = document.getElementById("custom-button-operator");
+  const youPaidButton = document.getElementById("you-paid-button");
+  const everyoneButton = document.getElementById("everyone-button");
+
+  
 
   const expenseMutation = async (expenseData) => {
     try {
@@ -50,34 +53,41 @@ const ExpenseForm = ({ group, expense }) => {
   });
 
   useEffect(() => {
-    if (expense) {
-      setAmount(expense?.data?.amount);
+    if (expense.data && expense.data.splits.length !== group?.data?.members?.length) {
+      setCustomSplit(expense.data.splits.map((split) => split.userId));
+  }
+}, [group.data])
+
+  useEffect(() => {
+    if (expense.data) {
+      setAmount(expense.data.amount);
       setExpenseId(expense.data._id);
     }
   }, [expense]);
 
   useEffect(() => {
-    if (group && customSplit.length === 0) {
-      const newSplits = group?.data?.members.map((member) => ({
+    if (!expense.data && group.data) {
+      setPayer(user._id);
+      const newSplits = group.data.members.map((member) => ({
         userId: member._id,
-        amount: amount / group?.data?.members?.length,
+        amount: amount / group.data.members.length,
       }));
 
       setSplits(newSplits);
       setGroupId(group.data._id);
-      setPayer(user._id);
+      
     }
 
-    if (expense && customSplit.length === 0) {
-      const newSplits = expense?.data?.splits.map((split) => ({
+    if (expense.data) {
+      const newSplits = expense.data.splits.map((split) => ({
         userId: split.userId,
-        amount: amount / expense?.data?.splits?.length,
+        amount: amount / expense.data.splits.length,
       }));
 
-      setExpenseName(expense?.data?.expenseName);
+      setExpenseName(expense.data.expenseName);
       setSplits(newSplits);
-      setGroupId(expense?.data?.group._id);
-      setPayer(expense?.data?.payer._id);
+      setGroupId(expense.data.group._id);
+      setPayer(expense.data.payer._id);
     }
   }, [group, expense, amount, user._id]);
 
@@ -86,6 +96,9 @@ const ExpenseForm = ({ group, expense }) => {
     const isChecked = e.target.checked;
 
     setCustomSplit((prevCustomSplit) => {
+
+      if (!customSplit) return [memberId];
+
       if (isChecked) {
         return [...prevCustomSplit, memberId];
       } else {
@@ -95,17 +108,40 @@ const ExpenseForm = ({ group, expense }) => {
   };
 
   useEffect(() => {
+
+    if (customSplit) {
     console.log(customSplit);
 
     const newSplits = customSplit.map((id) => ({
       userId: id,
-      amount: amount / customSplit.length,
+      amount: amount / customSplit?.length,
     }));
 
     setSplits(newSplits);
+  }
   }, [customSplit]);
 
+
+  const splitBetweenEveryone = () => {
+
+    if (group.data) {
+
+    setCustomSplit(null);
+    everyoneButton.checked = true;
+    customButtonOperator.checked = false;
+    customButton.checked = false;
+    
+    const newSplits = group.data.members.map((member) => ({
+      userId: member._id,
+      amount: amount / group.data.members.length,
+    }));
+    setSplits(newSplits);
+  }
+  };
+
+
   const saveExpenseClick = (e) => {
+
     e.preventDefault();
 
     if (expenseName === "" || amount === "") {
@@ -124,8 +160,9 @@ const ExpenseForm = ({ group, expense }) => {
 
     mutation.mutate(expenseData);
 
-    setAmount("");
   };
+
+ 
 
   return (
     <form className="h-full flex flex-col justify-between mt-5 md:flex-row">
@@ -157,9 +194,10 @@ const ExpenseForm = ({ group, expense }) => {
             type="radio"
             name="select-payer"
             aria-label="You"
-            className="btn basis-1/2 join-item "
+            className="btn basis-1/2 join-item"
+            id="you-paid-button"
             value={user._id}
-            onChange={(e) => {
+            onClick={(e) => {
               setPayer(e.target.value);
               console.log(payer);
             }}
@@ -170,14 +208,16 @@ const ExpenseForm = ({ group, expense }) => {
             <input
               className="btn"
               type="radio"
-              onChange={() => setPayer("")} // Clear payer when selecting 'Someone else'
-              checked={payer !== user._id}
+              onClick={() => {
+                youPaidButton.checked = false;
+                setPayer("")}} // Clear payer when selecting 'Someone else' 
+                checked={payer !== user._id}
             />
             <div className="collapse-title m-0 p-0 w-full">
               <input
                 className="btn w-full rounded-l-none"
                 type="radio"
-                onChange={() => setPayer("")} // Clear payer when selecting 'Someone else'
+                
                 checked={payer !== user._id}
                 aria-label="Someone else"
               />
@@ -185,7 +225,7 @@ const ExpenseForm = ({ group, expense }) => {
 
             <div className="collapse-content">
               {group &&
-                group?.data?.members
+                group.data.members
                   .filter((member) => member._id !== user._id)
                   .map((member) => {
                     return (
@@ -197,9 +237,8 @@ const ExpenseForm = ({ group, expense }) => {
                             name="select-payer"
                             className="radio"
                             value={member._id}
-                            onChange={(e) => {
-                              setPayer(e.target.value);
-                              console.log(payer);
+                            onClick={() => {
+                              setPayer(member._id);
                             }}
                             checked={payer === member._id}
                           />
@@ -215,45 +254,40 @@ const ExpenseForm = ({ group, expense }) => {
         <div className="join flex justify-between mt-2">
           <input
             type="radio"
+            id="everyone-button"
             name="select-split"
             aria-label="Everyone"
             className="btn basis-1/2 join-item"
-            onChange={(e) => {
-              customButton.checked = false;
-              setCustomSplit([]);
-            }}
-            defaultChecked={
-              !expense ||
-              group?.data?.members?.length === expense?.data?.splits?.length
+            checked={
+              !expense.data || !customSplit
             }
+            onClick={splitBetweenEveryone}
           />
 
           <div className="collapse basis-1/2 join-item">
             <input
               className="btn"
-              name="select-split"
               type="radio"
+              id="custom-button-operator"
               onClick={(e) => {
+                everyoneButton.checked = false;
                 customButton.checked = true;
               }}
             />
             <div className="collapse-title m-0 p-0 w-full">
               <input
                 className="btn w-full rounded-l-none"
-                name=""
                 type="radio"
                 aria-label="Custom"
                 id="custom-button"
-                defaultChecked={
-                  expense &&
-                  group?.data?.members?.length !== expense?.data?.splits?.length
-                }
+                checked={customSplit !== null}
+                
               />
             </div>
 
             <div className="collapse-content">
               {group &&
-                group?.data?.members.map((member) => {
+                group.data.members.map((member) => {
                   return (
                     <div className="form-control mt-2" key={member._id}>
                       <label className="label cursor-pointer">
@@ -269,11 +303,8 @@ const ExpenseForm = ({ group, expense }) => {
                           name="select-split-custom"
                           className="checkbox"
                           value={member._id}
-                          onChange={handleCustomSplit}
-                          defaultChecked={expense?.data?.splits.some(
-                            (split) => split.userId === member._id
-                          )}
-                          checked={customSplit.includes(member._id)}
+                          onClick={handleCustomSplit}
+                          checked={customSplit?.includes(member._id)}
                         />
                       </label>
                     </div>
@@ -286,10 +317,9 @@ const ExpenseForm = ({ group, expense }) => {
 
       {errorMessage && <p>{errorMessage}</p>}
 
-      
       <div className="md:w-[49%]">
         <div className="flex justify-between mt-5 md:flex-col-reverse md:h-[50%] md:justify-end md:gap-3 md:items-center">
-          {expense && (
+          {expense.data && (
             <button
               className="btn btn-error btn-md rounded-lg border-1 basis-[15%] md:basis-[8%] md:w-[50%]"
               onClick={() => {
@@ -327,7 +357,9 @@ const ExpenseForm = ({ group, expense }) => {
           </button>
 
           <button
-            className={`btn btn-primary btn-md rounded-lg border-1 md:basis-[8%] ${expense ? "basis-[40%]" : "basis-[55%]"}`}
+            className={`btn btn-primary btn-md rounded-lg border-1 md:basis-[8%] ${
+              expense ? "basis-[40%]" : "basis-[55%]"
+            }`}
             onClick={saveExpenseClick}
           >
             SAVE
