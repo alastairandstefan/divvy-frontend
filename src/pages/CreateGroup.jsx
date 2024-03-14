@@ -4,6 +4,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import UserResults from "../components/UserResults";
 import { toast } from "react-toastify";
+import { deleteExpenseByExpenseId, getExpensesByGroupId } from "../components/CRUDFunctions";
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -79,6 +81,9 @@ const fetchGroupDetails = async (groupID) => {
     throw error;
   }
 };
+
+const expenses = useQuery("expenses", getExpensesByGroupId(groupID));
+
 
 // Component
 const CreateGroup = ({ createGroup }) => {
@@ -331,6 +336,9 @@ const CreateGroup = ({ createGroup }) => {
       return;
     }
     try {
+      // delete all expenses associated with the group
+      groupData.splits.map(split => deleteExpenseByExpenseId(split._id));
+
       const storedToken = localStorage.getItem("authToken");
       const response = await axios.delete(
         `${API_URL}/api/groups/` + groupData._id,

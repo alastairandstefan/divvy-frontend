@@ -16,35 +16,27 @@ const DashboardPage = () => {
   const groups = useQuery("groups", getGroupsOfUser);
   const expenses = useQuery("expenses", getExpensesOfUser);
 
-
   const { user } = useContext(AuthContext);
 
- 
   const [receiptLength, setReceiptLength] = useState(3);
 
   useEffect(() => {
-    
-    function handleResize() {
-      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const handleResize = () => {
+      const vw = Math.max(
+        document.documentElement.clientWidth || 0,
+        window.innerWidth || 0
+      );
       setReceiptLength(vw > 768 ? 5 : 3);
-    }
+    };
 
-    // Initial call
     handleResize();
 
-    // Event listener for window resize
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    // Cleanup function to remove event listener
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-
- 
-
-  
 
   if (groups.isLoading || expenses.isLoading) return <div>Loading...</div>;
   if (groups.error || expenses.error) return <div>An error has occurred.</div>;
@@ -59,7 +51,7 @@ const DashboardPage = () => {
           {user.name ? (
             <h1 className="text-center pt-3">
               <span className="font-bold text-lg">Hi {user.name}</span>, <br />{" "}
-              here is your expense overview
+              Here is your expense overview
             </h1>
           ) : (
             <h1>Welcome</h1>
@@ -84,13 +76,17 @@ const DashboardPage = () => {
                     groupId={expense.group}
                   />
                 ))}
-            {expenses.data.length === 0 && (<div>
+            {expenses.data.length === 0 && (
+              <div>
                 <p className="text-center my-10 font-bold">No expenses yet</p>
-                <p className="text-center mb-10">&#8595; Create a group and an expense to it &#8595;</p>
+                <p className="text-center mb-10">
+                  &#8595; Create a group and an expense to it &#8595;
+                </p>
                 <p className="text-center">
-            ************************************************
-          </p>
-              </div>)}
+                  ************************************************
+                </p>
+              </div>
+            )}
             {expenses.data.length > receiptLength && (
               <Link to="/expenses" className="btn btn-sm  m-3">
                 Show full list
@@ -119,10 +115,8 @@ const DashboardPage = () => {
         <h2 className="text-lg font-bold">MY GROUPS</h2>
         <div className="w-full flex justify-center">
           <div className="flex flex-wrap mt-3 gap-4 w-full">
-           
             {groups.data &&
               groups.data.map((group) => (
-                
                 <GroupCard
                   groupName={group.groupName}
                   key={group._id}
