@@ -19,7 +19,7 @@ const ManageExpensePage = () => {
       enabled: !!expenseId,
     });
 
-   const group = useQuery("group", () => getGroupByGroupId(expense.data.group), {
+   const group = useQuery("group", () => getGroupByGroupId(groupId), {
       enabled: !!groupId,
     });
 
