@@ -10,7 +10,7 @@ const AllExpensesPage = () => {
   if (expenses.error) return <div>An error has occurred.</div>;
 
   return (
-    <div className="ALLEXPENSES flex flex-col justify-between h-auto min-h-[92.5%] p-3 bg-appbg">
+    <div className="ALLEXPENSES flex flex-col justify-between h-auto min-h-[92.5%] p-3 bg-appbg overflow-visible">
       <div
         className="RECEIPT flex grow  flex-col  mt-3 mb-10"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}

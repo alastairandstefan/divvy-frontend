@@ -1,6 +1,6 @@
 const AboutPage = () => {
   return (
-    <div className="DASHBOARD flex flex-col w-full items-center p-2 bg-appbg h-[92.5%]">
+    <div className="DASHBOARD flex flex-col w-full items-center p-2 bg-appbg h-[92.5%] overflow-visible">
       <div
         className="RECEIPT flex flex-col"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
