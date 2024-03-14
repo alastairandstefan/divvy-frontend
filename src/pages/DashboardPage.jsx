@@ -42,7 +42,7 @@ const DashboardPage = () => {
   if (groups.error || expenses.error) return <div>An error has occurred.</div>;
 
   return (
-    <div className="DASHBOARD flex flex-col md:flex-row justify-evenly w-full h-auto min-h-[92.5%] p-3 bg-appbg">
+    <div className="DASHBOARD flex flex-col md:flex-row justify-between md:justify-evenly w-full h-auto min-h-[92.5%] p-3 bg-appbg">
       <div
         className="RECEIPT flex w-full flex-col  mt-3 md:w-[31%]"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
