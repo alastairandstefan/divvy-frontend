@@ -17,9 +17,6 @@ const GroupDetailsPage = () => {
   const group = useQuery("group", () => getGroupByGroupId(groupId));
   const expenses = useQuery("expenses", () => getExpensesByGroupId(groupId));
 
-  console.log("group", group.data);
-  // console.log("CaT", group.data.colorCode);
-
   if (group.isLoading || expenses.isLoading) return <p>Loading...</p>;
   if (group.error || expenses.error) return <div>An error has occurred.</div>;
 

@@ -133,7 +133,6 @@ useEffect(()=> {
   const searchMutation = useMutation(fetchSearchResults, {
     onSuccess: (data) => {
       setSearchInitiated(true);
-      // console.log(data);
       // no user found
       if (data.length === 0) {
         toast.warning("No users found", {
@@ -258,7 +257,6 @@ useEffect(()=> {
 
     // get existing members 
     const memberIds = members.map((member) => member.id);
-    console.log("Output", { groupName, members: memberIds, colorCode });
     if (!groupName || !members) {
       toast.warning("Please fill in all fields", {
         position: "top-right",
@@ -294,7 +292,6 @@ useEffect(()=> {
   const handleUpdateGroup = async (e) => {
     e.preventDefault();
     const memberIds = members.map((member) => member.id);
-    console.log("Output", { id: groupData._id, groupName, members: memberIds });
     if (!groupName || memberIds.length === 0) {
       toast.warning("Please fill in all fields", {
         position: "top-right",
@@ -319,7 +316,6 @@ useEffect(()=> {
           },
         }
       );
-      console.log(response.data);
       navigate(-1);
       return response.data;
     } catch (error) {
@@ -340,7 +336,6 @@ useEffect(()=> {
   // delete group
   const handleDeleteGroup = async (e) => {
     // check if loggedInUser is the owner of the group
-    console.log(groupData.members[0]._id);
     if (loggedInUser._id !== groupData.members[0]._id) {
       toast.error("You are not the owner of this group", {
         position: "top-right",

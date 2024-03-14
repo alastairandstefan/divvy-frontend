@@ -44,7 +44,6 @@ const SignUpPage = () => {
   const mutation = useMutation(signUpMutation, {
     onSuccess: (data) => {
       storeToken(data.authToken);
-      // console.log("JWT token", data.authToken);
       authenticateUser();
     //   navigate("/dashboard");
     },

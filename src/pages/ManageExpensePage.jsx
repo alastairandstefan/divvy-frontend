@@ -12,7 +12,6 @@ const ManageExpensePage = () => {
  
   
 
-  console.log("reload");
 
 
     const expense = useQuery("expense", () => getExpenseByExpenseId(expenseId), {

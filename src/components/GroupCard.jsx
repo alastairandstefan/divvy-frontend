@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const GroupCard = ({ groupName, id, groupColor }) => {
-  console.log("groupColor", groupColor);
+  
   if(groupColor) {
     return (
       <Link

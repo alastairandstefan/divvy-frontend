@@ -112,7 +112,7 @@ const ExpenseForm = ({ group, expense }) => {
   useEffect(() => {
 
     if (customSplit) {
-    console.log(customSplit);
+    
 
     const newSplits = customSplit.map((id) => ({
       userId: id,
@@ -201,7 +201,7 @@ const ExpenseForm = ({ group, expense }) => {
             value={user._id}
             onClick={(e) => {
               setPayer(e.target.value);
-              console.log(payer);
+              
             }}
             checked={payer === user._id}
           />
