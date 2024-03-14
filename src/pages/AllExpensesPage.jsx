@@ -4,7 +4,7 @@ import Expense from "../components/Expense";
 import { useQuery } from "react-query";
 
 const AllExpensesPage = () => {
-  const expenses = useQuery("expenses", getExpensesOfUser);
+  const expenses = useQuery("expensesOfUser", getExpensesOfUser);
 
   if (expenses.isLoading) return <p>Loading...</p>;
   if (expenses.error) return <div>An error has occurred.</div>;
