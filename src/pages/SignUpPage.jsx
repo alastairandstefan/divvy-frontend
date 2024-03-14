@@ -45,11 +45,10 @@ const SignUpPage = () => {
     onSuccess: (data) => {
       storeToken(data.authToken);
       authenticateUser();
-    //   navigate("/dashboard");
+      navigate("/dashboard");
     },
     onError: (error) => {
       const errorDescription = error.response.data.message;
-      // setErrorMessage(errorDescription);
       notify(errorDescription);
     },
   });

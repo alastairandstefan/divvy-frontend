@@ -1,17 +1,15 @@
 const AboutPage = () => {
   return (
-    <div className="DASHBOARD flex flex-col justify-between p-2 bg-appbg h-[92.5%]">
+    <div className="DASHBOARD flex flex-col w-full items-center p-2 bg-appbg h-[92.5%]">
       <div
-        className="RECEIPT flex grow  flex-col"
+        className="RECEIPT flex flex-col"
         style={{ filter: `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2))` }}
       />
-      <div className="w-full bg-receipt p-4 flex flex-col h-full justify-evenly">
-        <h1 className="font-bold text-lg">
-          About D%VVY
-        </h1>
+      <div className="w-full md:w-[25%] bg-receipt p-4 flex flex-col md:h-[60%] justify-evenly">
+        <h1 className="font-bold text-lg">About D%VVY</h1>
 
         <p className="text-center my-2">
-          ***********************************************
+          ****************************************
         </p>
 
         <p>
@@ -20,8 +18,8 @@ const AboutPage = () => {
         </p>
 
         <p>
-          Our web app has been designed with a mobile-first approach, ensuring usability and
-          accessibility across all devices.
+          Our web app has been designed with a mobile-first approach, ensuring
+          usability and accessibility across all devices.
         </p>
 
         <p>
@@ -33,31 +31,51 @@ const AboutPage = () => {
           Our backend (Node.js) server is hosted on fly.io and connects our REST
           API to MongoAtlas.
         </p>
-<div className="flex justify-evenly">
-        <div className="flex flex-col items-center">
-            <img className="size-24 m-5" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"></img>
+        <div className="flex justify-evenly">
+          <div className="flex flex-col items-center">
+            <img
+              className="size-24 m-5"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+            ></img>
             <p>Alastair Longmuir</p>
             <div className="flex w-full justify-evenly mt-2">
-            <a href="https://github.com/alaslong/" target="_blank"><i className="fa-brands fa-github" /></a>
-            <a href="https://linkedin.com/in/alastairlongmuir/" target="_blank"><i className="fa-brands fa-linkedin" /></a>
-            <a href="https://alaslong.dev/" target="_blank"><i className="fas fa-link" /></a>
+              <a href="https://github.com/alaslong/" target="_blank">
+                <i className="fa-brands fa-github" />
+              </a>
+              <a
+                href="https://linkedin.com/in/alastairlongmuir/"
+                target="_blank"
+              >
+                <i className="fa-brands fa-linkedin" />
+              </a>
+              <a href="https://alaslong.dev/" target="_blank">
+                <i className="fas fa-link" />
+              </a>
             </div>
-        </div>
+          </div>
 
-        <div className="flex flex-col items-center">
-            <img className="size-24 m-5" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"></img>
+          <div className="flex flex-col items-center">
+            <img
+              className="size-24 m-5"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+            ></img>
             <p>Stefan Kummerlöw</p>
             <div className="flex w-full justify-evenly mt-2">
-            <a href="https://github.com/gummiz" target="_blank"><i className="fa-brands fa-github" /></a>
-            <a href="https://www.linkedin.com/in/stefankummerloew/" target="_blank"><i className="fa-brands fa-linkedin" /></a>
-            {/* <a href="" target="_blank"><i className="fas fa-link" /></a> */}
+              <a href="https://github.com/gummiz" target="_blank">
+                <i className="fa-brands fa-github" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/stefankummerloew/"
+                target="_blank"
+              >
+                <i className="fa-brands fa-linkedin" />
+              </a>
+              {/* <a href="" target="_blank"><i className="fas fa-link" /></a> */}
             </div>
+          </div>
         </div>
-        </div>
-
-
       </div>
-      <div className="-mt-2">
+      <div className="-mt-2 w-full md:w-[25%]">
         <svg
           className="PAPERTEAR w-full h-auto"
           height="17"

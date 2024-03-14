@@ -94,7 +94,7 @@ const DashboardPage = () => {
             )}
           </div>
         </div>
-        <div className="">
+        <div className="-mt-2">
           <svg
             className="PAPERTEAR w-full h-auto"
             height="17"
