@@ -4,12 +4,14 @@ import { AuthContext } from "../context/auth.context";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { deleteExpenseByExpenseId } from "./CRUDFunctions";
+import { useQueryClient } from "react-query";
 
 const ExpenseForm = ({ group, expense }) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const storedToken = localStorage.getItem("authToken");
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   // Ensure proper initialization of state values
   const [expenseName, setExpenseName] = useState(null);
@@ -321,12 +323,14 @@ const ExpenseForm = ({ group, expense }) => {
         <div className="flex justify-between mt-5 md:flex-col-reverse md:h-[50%] md:justify-end md:gap-3 md:items-center">
           {expense.data && (
             <button
-              className="btn btn-error btn-md rounded-lg border-1 basis-[15%] md:basis-[8%] md:w-[50%]"
+              className="btn btn-warning btn-md rounded-lg border-1 basis-[15%] md:basis-[8%] md:w-[50%]"
               onClick={() => {
-                if (expenseId) {
-                  deleteExpenseByExpenseId(expenseId);
+                if (expense.data) {
+                  deleteExpenseByExpenseId(expense.data._id);
+                  queryClient.invalidateQueries("expensesOfUser");
+
                 }
-                navigate(`/group/${groupId}`);
+                navigate(`/group/${expense.data.group}`);
               }}
             >
               <svg
@@ -350,7 +354,9 @@ const ExpenseForm = ({ group, expense }) => {
           <button
             className="btn btn-md rounded-lg border-1 basis-[40%] md:basis-[8%]"
             onClick={() => {
-              navigate(-1);
+              
+              navigate('/dashboard');
+              
             }}
           >
             CANCEL

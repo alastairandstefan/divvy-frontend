@@ -8,7 +8,7 @@ import { useQuery } from "react-query";
 const ManageExpensePage = () => {
   const location = useLocation();
   const { expenseId } = useParams();
-  const {groupId} = location.state;
+  const groupId = location?.state?.groupId;
  
   
 
@@ -19,8 +19,8 @@ const ManageExpensePage = () => {
       enabled: !!expenseId,
     });
 
-   const group = useQuery("group", () => getGroupByGroupId(groupId), {
-      enabled: !!groupId,
+   const group = useQuery("group", () => getGroupByGroupId(expense.data.group || groupId), {
+      enabled: !!expense?.data?.group || !!groupId,
     });
 
   

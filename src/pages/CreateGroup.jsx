@@ -1,9 +1,13 @@
-import { useMutation, useQuery } from "react-query";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { QueryClient, useMutation, useQuery } from "react-query";
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import UserResults from "../components/UserResults";
 import { toast } from "react-toastify";
+import { deleteExpenseByExpenseId, getExpensesByGroupId } from "../components/CRUDFunctions";
+import { useQueryClient } from "react-query";
+
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -80,9 +84,13 @@ const fetchGroupDetails = async (groupID) => {
   }
 };
 
+
+
 // Component
 const CreateGroup = ({ createGroup }) => {
   const location = useLocation();
+  const {groupId} = useParams();
+  const queryClient = useQueryClient();
 
   const groupData = location.state?.groupData || {}; // get groupID from location state GroupDetailsPage
   console.log("groupData:", groupData);
@@ -92,6 +100,22 @@ const CreateGroup = ({ createGroup }) => {
   const [searchInitiated, setSearchInitiated] = useState(false);
   const [members, setMembers] = useState(groupData?.members || []);
   const navigate = useNavigate();
+  
+
+ 
+  const expenses = useQuery(
+    "expensesByGroupId",
+    () => getExpensesByGroupId(groupId),
+    {
+      enabled: !!groupId, // Ensure query is enabled when groupId is available
+    }
+  );
+
+
+useEffect(()=> {
+  console.log(expenses)
+}, [expenses])
+  
 
   // Initialize members with existing members when the component mounts or when the group data is loaded
   useEffect(() => {
@@ -331,6 +355,14 @@ const CreateGroup = ({ createGroup }) => {
       return;
     }
     try {
+      // delete all expenses associated with the group
+      
+      
+        expenses?.data?.map(expense => deleteExpenseByExpenseId(expense._id));
+      
+      
+
+
       const storedToken = localStorage.getItem("authToken");
       const response = await axios.delete(
         `${API_URL}/api/groups/` + groupData._id,
@@ -340,6 +372,8 @@ const CreateGroup = ({ createGroup }) => {
           },
         }
       );
+      
+      queryClient.refetchQueries("expenses");
       navigate("/dashboard");
       return response.data;
     } catch (error) {

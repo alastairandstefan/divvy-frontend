@@ -27,7 +27,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits, groupId }) => 
         <p className="self-start">{expenseName.charAt(0).toUpperCase() + expenseName.slice(1)}</p>
         <div className="w-full flex justify-between text-green-500 text-sm">
           <p>You paid {amount}€</p>
-          <p>You're owed {owedAmount}€</p>
+          <p>You're owed {Math.round((owedAmount) * 100) / 100}€</p>
         </div>
       </Link>
     );
@@ -47,7 +47,7 @@ const Expense = ({ expenseName, amount, expenseId, payer, splits, groupId }) => 
         <p className="self-start capitalize">{expenseName.charAt(0).toUpperCase() + expenseName.slice(1)}</p>
         <div className="w-full flex justify-between text-red-500 text-sm">
           <p>{`${payer.name} paid ${amount}€`}</p>
-          <p>You owe {userSplit.amount}€</p>
+          <p>You owe {Math.round((userSplit.amount) * 100) / 100}€</p>
         </div>
       </Link>
     );
