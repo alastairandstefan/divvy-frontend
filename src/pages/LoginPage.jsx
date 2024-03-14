@@ -64,8 +64,9 @@ const LoginPage = () => {
 
   return (
     <div className="relative flex flex-col w-full h-[92.5%]">
-        <h3 className="text-2xl my-10 sm:w-80 text-center">Login to D%VVY</h3>
+        
         <form className="flex flex-col justify-center items-center">
+        <h3 className="text-2xl my-10 sm:w-80 text-center">Login to D%VVY</h3>
           <label className="input input-bordered flex items-center gap-2 w-full max-w-80 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"

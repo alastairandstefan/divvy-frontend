@@ -65,8 +65,9 @@ const SignUpPage = () => {
   return (
     <div className="relative flex flex-col justify-center w-full">
       <div className="flex flex-col justify-center h-full mx-4">
-        <h3 className="text-2xl my-10 sm:w-80 text-center">Sign Up to D%VVY</h3>
+       
         <form className="flex flex-col justify-center items-center">
+        <h3 className="text-2xl my-10 sm:w-80 text-center">Sign Up to D%VVY</h3>
           <label className="input input-bordered flex items-center gap-2 w-full max-w-80 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
