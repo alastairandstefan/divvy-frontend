@@ -323,10 +323,10 @@ const ExpenseForm = ({ group, expense }) => {
             <button
               className="btn btn-error btn-md rounded-lg border-1 basis-[15%] md:basis-[8%] md:w-[50%]"
               onClick={() => {
-                if (expenseId) {
-                  deleteExpenseByExpenseId(expenseId);
+                if (expense.data) {
+                  deleteExpenseByExpenseId(expense.data._id);
                 }
-                navigate(`/group/${groupId}`);
+                navigate(`/group/${expense.data.group}`);
               }}
             >
               <svg
@@ -350,7 +350,9 @@ const ExpenseForm = ({ group, expense }) => {
           <button
             className="btn btn-md rounded-lg border-1 basis-[40%] md:basis-[8%]"
             onClick={() => {
-              navigate(-1);
+              
+              navigate('/dashboard');
+              
             }}
           >
             CANCEL

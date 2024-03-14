@@ -13,8 +13,8 @@ import { useQueryClient } from "react-query";
 import { useState, useEffect } from "react";
 
 const DashboardPage = () => {
-  const groups = useQuery("groups", getGroupsOfUser);
-  const expenses = useQuery("expenses", getExpensesOfUser);
+  const groups = useQuery("groupsOfUser", getGroupsOfUser);
+  const expenses = useQuery("expensesOfUser", getExpensesOfUser);
 
   const { user } = useContext(AuthContext);
 
@@ -62,7 +62,7 @@ const DashboardPage = () => {
 
           {/* Expenses */}
           <div className="flex flex-col items-center">
-            {expenses.data &&
+            {expenses.data && expenses.data.length > 0 ? (
               expenses.data
                 .slice(0, receiptLength)
                 .map((expense) => (
@@ -75,8 +75,8 @@ const DashboardPage = () => {
                     expenseId={expense._id}
                     groupId={expense.group}
                   />
-                ))}
-            {expenses.data.length === 0 && (
+                ))
+            ) : (
               <div>
                 <p className="text-center my-10 font-bold">No expenses yet</p>
                 <p className="text-center mb-10">
@@ -87,7 +87,7 @@ const DashboardPage = () => {
                 </p>
               </div>
             )}
-            {expenses.data.length > receiptLength && (
+            {expenses.data && expenses.data.length > receiptLength && (
               <Link to="/expenses" className="btn btn-sm  m-3">
                 Show full list
               </Link>

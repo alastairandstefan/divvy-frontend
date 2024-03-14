@@ -1,5 +1,5 @@
-import { useQuery } from "react-query";
 import axios from "axios";
+
 
 export const getGroupsOfUser = async () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -50,6 +50,9 @@ export const getExpensesOfUser = async () => {
 };
 
 export const getExpensesByGroupId = async (groupId) => {
+
+  if (!groupId) return null;
+
   const API_URL = import.meta.env.VITE_API_URL;
   const storedToken = localStorage.getItem("authToken");
 
@@ -85,6 +88,9 @@ export const getExpenseByExpenseId = async (expenseId) => {
 export const deleteExpenseByExpenseId = (expenseId) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const storedToken = localStorage.getItem("authToken");
+  
+
+  
 
   axios
     .delete(`${API_URL}/api/expenses/${expenseId}`, {
