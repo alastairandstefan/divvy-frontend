@@ -129,6 +129,15 @@ const NavBar = () => {
             </li>
             <li>
               <Link
+                to="/about"
+                className=" text-xl w-full"
+                onClick={() => setIsNavOpen((prev) => !prev)}
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/dashboard"
                 className=" text-xl w-full"
                 onClick={() => logOutHandler()}
